@@ -10,29 +10,29 @@ struct SceneManager::Impl
 {
 	static const float SCENE_TRANSITION_DURATION;
 
-	static mutex SceneManagerMutex;
-	static SceneManager* SceneManagerInstance;
+	static mutex sceneManagerMutex;
+	static SceneManager* sceneManagerInstance;
 };
 
 const float SceneManager::Impl::SCENE_TRANSITION_DURATION(0.5f);
 
-mutex SceneManager::Impl::SceneManagerMutex;
-SceneManager* SceneManager::Impl::SceneManagerInstance = nullptr;
+mutex SceneManager::Impl::sceneManagerMutex;
+SceneManager* SceneManager::Impl::sceneManagerInstance = nullptr;
 
 SceneManager* SceneManager::getInstance()
 {
-	lock_guard<mutex> lock(Impl::SceneManagerMutex);
+	lock_guard<mutex> lock(Impl::sceneManagerMutex);
 	(void)lock;
 
-	if (!Impl::SceneManagerInstance)
+	if (!Impl::sceneManagerInstance)
 	{
-		Impl::SceneManagerInstance = new (std::nothrow) SceneManager();
-		CCASSERT(Impl::SceneManagerInstance, "FATAL: Not enough memory!");
-		Impl::SceneManagerInstance->init();
-		Impl::SceneManagerInstance->autorelease();
+		Impl::sceneManagerInstance = new (std::nothrow) SceneManager();
+		CCASSERT(Impl::sceneManagerInstance, "FATAL: Not enough memory!");
+		Impl::sceneManagerInstance->init();
+		Impl::sceneManagerInstance->autorelease();
 	}
 
-	return Impl::SceneManagerInstance;
+	return Impl::sceneManagerInstance;
 }
 
 SceneManager::SceneManager()
@@ -43,7 +43,7 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	Impl::SceneManagerInstance = nullptr;
+	Impl::sceneManagerInstance = nullptr;
 }
 
 bool SceneManager::init()

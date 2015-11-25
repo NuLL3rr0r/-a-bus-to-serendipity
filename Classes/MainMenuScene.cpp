@@ -5,7 +5,8 @@ using namespace cocos2d;
 
 struct MainMenuScene::Impl
 {
-
+	Impl();
+	~Impl();
 };
 
 MainMenuScene* MainMenuScene::create()
@@ -39,4 +40,14 @@ bool MainMenuScene::init()
 	}
 
 	return true;
+}
+
+MainMenuScene::Impl::Impl()
+{
+
+}
+
+MainMenuScene::Impl::~Impl()
+{
+
 }

@@ -8,6 +8,9 @@ struct VisibleRect::Impl
 	static Rect visibleRect;
 
 	static void lazyInit();
+
+	Impl();
+	~Impl();
 };
 
 Rect VisibleRect::Impl::visibleRect;
@@ -102,4 +105,14 @@ void VisibleRect::Impl::lazyInit()
 		visibleRect.origin = director->getVisibleOrigin();
 		visibleRect.size = director->getVisibleSize();
 	}
+}
+
+VisibleRect::Impl::Impl()
+{
+
+}
+
+VisibleRect::Impl::~Impl()
+{
+
 }

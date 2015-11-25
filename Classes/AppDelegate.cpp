@@ -19,7 +19,10 @@ static int register_all_packages()
 
 struct AppDelegate::Impl
 {
+	Impl();
+	~Impl();
 
+	void setupSounds();
 };
 
 AppDelegate::AppDelegate()
@@ -96,4 +99,19 @@ void AppDelegate::initGLContextAttrs()
 {
 	GLContextAttrs glContextAttrs{ 8, 8, 8, 8, 24, 8 };
 	GLView::setGLContextAttrs(glContextAttrs);
+}
+
+AppDelegate::Impl::Impl()
+{
+
+}
+
+AppDelegate::Impl::~Impl()
+{
+
+}
+
+void AppDelegate::Impl::setupSounds()
+{
+
 }

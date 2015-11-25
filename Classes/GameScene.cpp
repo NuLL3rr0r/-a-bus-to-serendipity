@@ -5,7 +5,8 @@ using namespace cocos2d;
 
 struct GameScene::Impl
 {
-
+	Impl();
+	~Impl();
 };
 
 GameScene* GameScene::create()
@@ -39,4 +40,14 @@ bool GameScene::init()
 	}
 
 	return true;
+}
+
+GameScene::Impl::Impl()
+{
+
+}
+
+GameScene::Impl::~Impl()
+{
+
 }

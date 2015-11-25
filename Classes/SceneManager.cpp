@@ -12,6 +12,9 @@ struct SceneManager::Impl
 
 	static mutex sceneManagerMutex;
 	static SceneManager* sceneManagerInstance;
+
+	Impl();
+	~Impl();
 };
 
 const float SceneManager::Impl::SCENE_TRANSITION_DURATION(0.5f);
@@ -74,4 +77,14 @@ void SceneManager::load(Scene& scene)
 	}
 
 	director->replaceScene(TransitionFade::create(Impl::SCENE_TRANSITION_DURATION, s));
+}
+
+SceneManager::Impl::Impl()
+{
+
+}
+
+SceneManager::Impl::~Impl()
+{
+
 }

@@ -1,6 +1,5 @@
 #include "SimpleAudioEngine.h"
 #include "AppDelegate.hpp"
-#include "MainMenuScene.hpp"
 #include "SceneManager.hpp"
 
 using namespace std;
@@ -19,14 +18,18 @@ static int register_all_packages()
 
 struct AppDelegate::Impl
 {
-	Impl();
+private:
+	AppDelegate *m_parent;
+
+public:
+	explicit Impl(AppDelegate *parent);
 	~Impl();
 
 	void setupSounds();
 };
 
 AppDelegate::AppDelegate()
-	: m_pimpl(make_unique<AppDelegate::Impl>())
+	: m_pimpl(make_unique<AppDelegate::Impl>(this))
 {
 
 }
@@ -101,7 +104,8 @@ void AppDelegate::initGLContextAttrs()
 	GLView::setGLContextAttrs(glContextAttrs);
 }
 
-AppDelegate::Impl::Impl()
+AppDelegate::Impl::Impl(AppDelegate *parent)
+	: m_parent(parent)
 {
 
 }

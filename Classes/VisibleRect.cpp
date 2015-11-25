@@ -5,11 +5,16 @@ using namespace cocos2d;
 
 struct VisibleRect::Impl
 {
+public:
 	static Rect visibleRect;
 
 	static void lazyInit();
 
-	Impl();
+private:
+	VisibleRect *m_parent;
+
+public:
+	explicit Impl(VisibleRect *parent);
 	~Impl();
 };
 
@@ -88,7 +93,7 @@ const cocos2d::Point VisibleRect::rightBottom()
 }
 
 VisibleRect::VisibleRect()
-	: m_pimpl(make_unique<VisibleRect::Impl>())
+	: m_pimpl(make_unique<VisibleRect::Impl>(this))
 {
 
 }
@@ -107,7 +112,8 @@ void VisibleRect::Impl::lazyInit()
 	}
 }
 
-VisibleRect::Impl::Impl()
+VisibleRect::Impl::Impl(VisibleRect *parent)
+	: m_parent(parent)
 {
 
 }

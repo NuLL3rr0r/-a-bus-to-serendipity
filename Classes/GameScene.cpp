@@ -5,7 +5,11 @@ using namespace cocos2d;
 
 struct GameScene::Impl
 {
-	Impl();
+private:
+	GameScene *m_parent;
+
+public:
+	explicit Impl(GameScene *parent);
 	~Impl();
 };
 
@@ -23,7 +27,7 @@ GameScene* GameScene::create()
 }
 
 GameScene::GameScene()
-	: m_pimpl(make_unique<GameScene::Impl>())
+	: m_pimpl(make_unique<GameScene::Impl>(this))
 {
 
 }
@@ -42,7 +46,8 @@ bool GameScene::init()
 	return true;
 }
 
-GameScene::Impl::Impl()
+GameScene::Impl::Impl(GameScene *parent)
+	: m_parent(parent)
 {
 
 }

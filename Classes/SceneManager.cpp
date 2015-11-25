@@ -8,12 +8,17 @@ using namespace cocos2d;
 
 struct SceneManager::Impl
 {
+public:
 	static const float SCENE_TRANSITION_DURATION;
 
 	static mutex sceneManagerMutex;
 	static SceneManager* sceneManagerInstance;
 
-	Impl();
+private:
+	SceneManager *m_parent;
+
+public:
+	explicit Impl(SceneManager *parent);
 	~Impl();
 };
 
@@ -39,7 +44,7 @@ SceneManager* SceneManager::getInstance()
 }
 
 SceneManager::SceneManager()
-	: m_pimpl(make_unique<SceneManager::Impl>())
+	: m_pimpl(make_unique<SceneManager::Impl>(this))
 {
 
 }
@@ -79,7 +84,8 @@ void SceneManager::load(Scene& scene)
 	director->replaceScene(TransitionFade::create(Impl::SCENE_TRANSITION_DURATION, s));
 }
 
-SceneManager::Impl::Impl()
+SceneManager::Impl::Impl(SceneManager *parent)
+	: m_parent(parent)
 {
 
 }

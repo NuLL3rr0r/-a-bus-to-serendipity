@@ -18,7 +18,6 @@ private:
 
 public:
 	static SceneManager* getInstance();
-	static void destroyInstance();
 
 private:
 	SceneManager();

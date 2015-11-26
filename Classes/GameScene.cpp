@@ -1,3 +1,4 @@
+#include "make_unique.hpp"
 #include "GameScene.hpp"
 
 using namespace std;

@@ -1,3 +1,4 @@
+#include "make_unique.hpp"
 #include "SimpleAudioEngine.h"
 #include "AppDelegate.hpp"
 #include "SceneManager.hpp"

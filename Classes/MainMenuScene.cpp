@@ -1,3 +1,4 @@
+#include "make_unique.hpp"
 #include "MainMenuScene.hpp"
 #include "VisibleRect.hpp"
 

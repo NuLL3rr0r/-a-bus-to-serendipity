@@ -1,4 +1,5 @@
 #include <mutex>
+#include "make_unique.hpp"
 #include "GameScene.hpp"
 #include "MainMenuScene.hpp"
 #include "SceneManager.hpp"

@@ -22,4 +22,4 @@ public:
 	virtual void initGLContextAttrs() override;
 };
 
-#endif // _APP_DELEGATE_HPP__
+#endif // __APP_DELEGATE_HPP__

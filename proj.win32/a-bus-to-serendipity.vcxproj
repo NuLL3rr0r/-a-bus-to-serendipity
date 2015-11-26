@@ -155,6 +155,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.hpp" />
     <ClInclude Include="..\Classes\GameScene.hpp" />
     <ClInclude Include="..\Classes\MainMenuScene.hpp" />
+    <ClInclude Include="..\Classes\make_unique.hpp" />
     <ClInclude Include="..\Classes\SceneManager.hpp" />
     <ClInclude Include="..\Classes\VisibleRect.hpp" />
     <ClInclude Include="main.h" />

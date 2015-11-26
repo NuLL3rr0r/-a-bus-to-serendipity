@@ -1,3 +1,4 @@
+#include "make_unique.hpp"
 #include "VisibleRect.hpp"
 
 using namespace std;

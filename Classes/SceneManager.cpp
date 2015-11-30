@@ -65,7 +65,7 @@ void SceneManager::run()
 	Director::getInstance()->runWithScene(MainMenuScene::create());
 }
 
-void SceneManager::load(Scene& scene)
+void SceneManager::load(const Scene& scene)
 {
 	auto director = Director::getInstance();
 	cocos2d::Scene *s;

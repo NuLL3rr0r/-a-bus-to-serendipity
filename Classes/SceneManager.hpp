@@ -27,7 +27,7 @@ public:
 	bool init();
 
 	void run();
-	void load(Scene& scene);
+	void load(const Scene& scene);
 };
 
 #endif // __SCENE_MANAGER_HPP__

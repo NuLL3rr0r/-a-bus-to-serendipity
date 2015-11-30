@@ -1,5 +1,6 @@
 #include "make_unique.hpp"
 #include "MainMenuScene.hpp"
+#include "SceneManager.hpp"
 #include "VisibleRect.hpp"
 
 using namespace std;
@@ -83,6 +84,7 @@ void MainMenuScene::Impl::createMenu()
 	MenuItemFont::setFontSize(20);
 
 	auto newGameItem = MenuItemFont::create("New Game", [&](Ref *sender) {
+		SceneManager::getInstance()->load(SceneManager::Scene::Game);
 	});
 
 	auto creditsItem = MenuItemFont::create("Credits", [&](Ref *sender) {

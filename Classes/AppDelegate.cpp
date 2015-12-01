@@ -7,11 +7,6 @@ using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
-
 static int register_all_packages()
 {
 	return 0;
@@ -19,6 +14,12 @@ static int register_all_packages()
 
 struct AppDelegate::Impl
 {
+public:
+	static const cocos2d::Size DesignResolutionSize;
+	static const cocos2d::Size SdResolutionSize;
+	static const cocos2d::Size MdResolutionSize;
+	static const cocos2d::Size HdResolutionSize;
+
 private:
 	AppDelegate *m_parent;
 
@@ -28,6 +29,11 @@ public:
 
 	void setupSounds();
 };
+
+const cocos2d::Size AppDelegate::Impl::DesignResolutionSize = cocos2d::Size(480, 320);
+const cocos2d::Size AppDelegate::Impl::SdResolutionSize = cocos2d::Size(480, 320);
+const cocos2d::Size AppDelegate::Impl::MdResolutionSize = cocos2d::Size(960, 640);
+const cocos2d::Size AppDelegate::Impl::HdResolutionSize = cocos2d::Size(1920, 1280);
 
 AppDelegate::AppDelegate()
 	: m_pimpl(make_unique<AppDelegate::Impl>(this))
@@ -47,7 +53,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 	if (!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #ifndef NDEBUG
-		glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
+		//glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, m_pimpl->MdResolutionSize.width, m_pimpl->MdResolutionSize.height));
+		glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, 1920, 1080));
 #else
 		glview = GLViewImpl::createWithFullScreen("A Bus to Serendipity");
 #endif // NDEBUG
@@ -62,20 +69,29 @@ bool AppDelegate::applicationDidFinishLaunching()
 	director->setDisplayStats(true);
 #endif // NDEBUG
 
-	glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+	glview->setDesignResolutionSize(m_pimpl->DesignResolutionSize.width, m_pimpl->DesignResolutionSize.height, ResolutionPolicy::SHOW_ALL);
 	Size frameSize = glview->getFrameSize();
-	if (frameSize.height > mediumResolutionSize.height)
+
+	std::vector<std::string> searchPaths;
+	auto fileUtils = FileUtils::getInstance();
+
+	if (frameSize.height > m_pimpl->MdResolutionSize.height)
 	{
-		director->setContentScaleFactor(MIN(largeResolutionSize.height / designResolutionSize.height, largeResolutionSize.width / designResolutionSize.width));
+		director->setContentScaleFactor(MIN(m_pimpl->HdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->HdResolutionSize.width / m_pimpl->DesignResolutionSize.width));
+		searchPaths.push_back("res/hd");
 	}
-	else if (frameSize.height > smallResolutionSize.height)
+	else if (frameSize.height > m_pimpl->SdResolutionSize.height)
 	{
-		director->setContentScaleFactor(MIN(mediumResolutionSize.height / designResolutionSize.height, mediumResolutionSize.width / designResolutionSize.width));
+		director->setContentScaleFactor(MIN(m_pimpl->MdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->MdResolutionSize.width / m_pimpl->DesignResolutionSize.width));
+		searchPaths.push_back("res/md");
 	}
 	else
 	{
-		director->setContentScaleFactor(MIN(smallResolutionSize.height / designResolutionSize.height, smallResolutionSize.width / designResolutionSize.width));
+		director->setContentScaleFactor(MIN(m_pimpl->SdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->SdResolutionSize.width / m_pimpl->DesignResolutionSize.width));
+		searchPaths.push_back("res/sd");
 	}
+
+	fileUtils->setSearchPaths(searchPaths);
 
 	register_all_packages();
 

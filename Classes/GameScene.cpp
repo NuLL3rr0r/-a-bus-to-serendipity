@@ -1,5 +1,6 @@
 #include "make_unique.hpp"
 #include "GameScene.hpp"
+#include "VisibleRect.hpp"
 
 using namespace std;
 using namespace cocos2d;
@@ -43,6 +44,10 @@ bool GameScene::init()
 	if (!Scene::init()) {
 		return false;
 	}
+
+	auto background = Sprite::create("bg_game.png");
+	background->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
+	this->addChild(background, - 1);
 
 	return true;
 }

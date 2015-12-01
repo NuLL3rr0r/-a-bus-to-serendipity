@@ -53,8 +53,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	if (!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #ifndef NDEBUG
-		//glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, m_pimpl->MdResolutionSize.width, m_pimpl->MdResolutionSize.height));
-		glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, 1920, 1080));
+		glview = GLViewImpl::createWithRect("A Bus to Serendipity", Rect(0, 0, m_pimpl->MdResolutionSize.width, m_pimpl->MdResolutionSize.height));
 #else
 		glview = GLViewImpl::createWithFullScreen("A Bus to Serendipity");
 #endif // NDEBUG
@@ -69,7 +68,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	director->setDisplayStats(true);
 #endif // NDEBUG
 
-	glview->setDesignResolutionSize(m_pimpl->DesignResolutionSize.width, m_pimpl->DesignResolutionSize.height, ResolutionPolicy::SHOW_ALL);
+	glview->setDesignResolutionSize(m_pimpl->DesignResolutionSize.width, m_pimpl->DesignResolutionSize.height, ResolutionPolicy::FIXED_HEIGHT);
 	Size frameSize = glview->getFrameSize();
 
 	std::vector<std::string> searchPaths;

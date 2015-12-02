@@ -7,26 +7,24 @@
 #include "Android.hpp"
 #include "make_unique.hpp"
 
-#define  LOG_TAG    "Android.cpp"
+#define  LOG_TAG    "[Android.cpp]"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 using namespace std;
 using namespace cocos2d;
 
-static void screenOrientationChanged(JNIEnv*, jobject, int state)
+static void screenOrientationChanged(JNIEnv*, jobject, int orientation)
 {
-
+	Android::getInstance()->debug("Orientation Changed!");
 }
-
-static JNINativeMethod s_jniNativeMethods[] = {
-	{ "screenOrientationChanged", "(I)V", (void*)screenOrientationChanged }
-};
 
 struct Android::Impl
 {
 public:
 	static mutex androidMutex;
 	static Android* androidInstance;
+
+	static JNINativeMethod jniNativeMethods[];
 
 public:
 	jclass appActivityClass;
@@ -40,6 +38,10 @@ private:
 public:
 	explicit Impl(Android *parent);
 	~Impl();
+};
+
+JNINativeMethod Android::Impl::jniNativeMethods[] = {
+	{ "screenOrientationChanged", "(I)V", (void*)screenOrientationChanged }
 };
 
 mutex Android::Impl::androidMutex;
@@ -95,9 +97,15 @@ bool Android::init()
 		return false;
 	}
 
-	m_pimpl->appActivityDebugMethod = env->GetMethodID(m_pimpl->appActivityClass, "debug", "(Ljava/lang/CharSequence)V");
+	m_pimpl->appActivityDebugMethod = env->GetMethodID(m_pimpl->appActivityClass, "debug", "(Ljava/lang/CharSequence;)V");
 	if (!m_pimpl->appActivityDebugMethod) {
 		LOGD("FATAL: Failed to find method `AppActivity.debug()`!");
+		return false;
+	}
+
+	if (env->RegisterNatives(m_pimpl->appActivityClass,	m_pimpl->jniNativeMethods,
+		sizeof(m_pimpl->jniNativeMethods) / sizeof(m_pimpl->jniNativeMethods[0])) < 0) {
+		LOGD("FATAL: Failed to register native methods!");
 		return false;
 	}
 

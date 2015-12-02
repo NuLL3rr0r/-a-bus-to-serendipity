@@ -1,5 +1,8 @@
 #include "make_unique.hpp"
 #include "SimpleAudioEngine.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "Android.hpp"
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "AppDelegate.hpp"
 #include "SceneManager.hpp"
 
@@ -48,6 +51,10 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	(void*)Android::getInstance();
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	if (!glview) {

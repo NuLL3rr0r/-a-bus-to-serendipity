@@ -50,7 +50,7 @@ public class AppActivity extends Cocos2dxActivity {
     {
         try {
             Log.v(TAG, "debug");
-            
+
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

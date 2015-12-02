@@ -4,12 +4,16 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+#include <functional>
 #include <memory>
 #include <string>
 #include "cocos2d.h"
 
 class Android : public cocos2d::Ref
 {
+public:
+	typedef std::function<void(int)> ScreenOrientationChangedHandler_t;
+
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
@@ -20,6 +24,9 @@ public:
 private:
 	Android();
 	virtual ~Android();
+
+public:
+	void onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler);
 
 public:
 	bool init();

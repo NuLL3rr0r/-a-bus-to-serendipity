@@ -26,30 +26,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
-import android.widget.Toast;
-import android.content.res.Configuration;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 public class AppActivity extends Cocos2dxActivity {
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(AppActivity.this, "landscape", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(AppActivity.this, "portrait", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 }

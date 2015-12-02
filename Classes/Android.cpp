@@ -1,17 +1,17 @@
-#ifdef __ANDROID__
+#include "platform/CCPlatformConfig.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+#include <android/log.h>
 #include <jni.h>
+#include "platform/android/jni/JniHelper.h"
 #include "Android.hpp"
 #include "make_unique.hpp"
 
+#define  LOG_TAG    "Android.cpp"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
 using namespace std;
 using namespace cocos2d;
-
-static JavaVM* s_javaVM = NULL;
-static jclass s_appActivityClassID = NULL;
-static jmethodID s_appActivityConstructorMethodID = NULL;
-static jmethodID s_appActivityReleaseMethodID = NULL;
-static jmethodID s_appActivityDebugMethodID = NULL;
 
 static void screenOrientationChanged(JNIEnv*, jobject, int state)
 {
@@ -22,53 +22,6 @@ static JNINativeMethod s_jniNativeMethods[] = {
 	{ "screenOrientationChanged", "(I)V", (void*)screenOrientationChanged }
 };
 
-// This method is called immediately after the module is loaded.
-JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void*)
-{
-	JNIEnv* env;
-	if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
-		CCLOG("FATAL: Could not get the JNI enviroument!");
-		return -1;
-	}
-
-	s_javaVM = vm;
-
-	// Search for AppActivity class.
-	jclass clazz = env->FindClass("serendipity/AppActivity");
-	if (!clazz) {
-		CCLOG("FATAL: Could not find the Android class!");
-		return -1;
-	}
-
-	// Keep a global reference to it.
-	s_appActivityClassID = (jclass)env->NewGlobalRef(clazz);
-
-	// Search for its contructor.
-	s_appActivityConstructorMethodID = env->GetMethodID(s_appActivityClassID, "<init>", "()V");
-	if (!s_appActivityConstructorMethodID) {
-		CCLOG("FATAL: Could not find the Android class contructor!");
-		return -1;
-	}
-
-	// Search for release method.
-	s_appActivityReleaseMethodID = env->GetMethodID(s_appActivityClassID, "release", "()Z");
-	if (!s_appActivityReleaseMethodID) {
-		CCLOG("FATAL: Could not find Release method!");
-		return -1;
-	}
-
-	// Search for debug method.
-	s_appActivityDebugMethodID = env->GetMethodID(s_appActivityClassID, "debug", "(Ljava/lang/CharSequence)V");
-	if (!s_appActivityDebugMethodID) {
-		CCLOG("FATAL: Could not find debug method!");
-		return -1;
-	}
-
-	CCLOG("INFO: JNI_OnLoad was executed successfully!");
-
-	return JNI_VERSION_1_6;
-}
-
 struct Android::Impl
 {
 public:
@@ -76,7 +29,10 @@ public:
 	static Android* androidInstance;
 
 public:
+	jclass appActivityClass;
 	jobject appActivityObject;
+	jmethodID appActivityGetObjectMethod;
+	jmethodID appActivityDebugMethod;
 
 private:
 	Android *m_parent;
@@ -108,68 +64,61 @@ Android* Android::getInstance()
 Android::Android()
 	: m_pimpl(make_unique<Android::Impl>(this))
 {
-	JNIEnv* env;
 
-	// Cocos2d-x is running in a different thread than Java UI.
-	// So, Java VM *MUST* always stay attached to the current thread.
-	if (s_javaVM->AttachCurrentThread(&env, NULL) < 0) {
-		CCLOG("FATAL: AttachCurrentThread failed!");
-		return;
-	}
-
-	// Create a new instance of appActivity.
-	m_pimpl->appActivityObject = env->NewGlobalRef(env->NewObject(s_appActivityClassID,	s_appActivityConstructorMethodID));
-	if (!m_pimpl->appActivityObject) {
-		CCLOG("FATAL: Could not create the appActivity class instance!");
-		return;
-	}
-
-	// Don't forget to detach from current thread.
-	s_javaVM->DetachCurrentThread();
 }
 
 Android::~Android()
 {
-	if (m_pimpl->appActivityObject) {
-		JNIEnv* env;
-
-		if (s_javaVM->AttachCurrentThread(&env, NULL) < 0 ) {
-			CCLOG("FATAL: AttachCurrentThread failed!");
-			return;
-		}
-
-		if (!env->CallBooleanMethod(m_pimpl->appActivityObject,	s_appActivityReleaseMethodID)) {
-			CCLOG("FATAL: Releasing appActivity object failed!");
-		}
-
-		s_javaVM->DetachCurrentThread();
-	}
-
 	Impl::androidInstance = nullptr;
 }
 
 bool Android::init()
 {
+	JavaVM* javaVM = JniHelper::getJavaVM();
+	JNIEnv* env = JniHelper::getEnv();
+
+	m_pimpl->appActivityClass = env->FindClass("serendipity/AppActivity");
+	if (!m_pimpl->appActivityClass) {
+		LOGD("FATAL: Failed to find class `AppActivity`!");
+		return false;
+	}
+
+	m_pimpl->appActivityGetObjectMethod = env->GetStaticMethodID(m_pimpl->appActivityClass, "getObject", "()Ljava/lang/Object;");
+	if (!m_pimpl->appActivityGetObjectMethod) {
+		LOGD("FATAL: Failed to find static method `AppActivity.getObject()`!");
+		return false;
+	}
+
+	m_pimpl->appActivityObject = env->CallStaticObjectMethod(m_pimpl->appActivityClass, m_pimpl->appActivityGetObjectMethod);
+	if (!m_pimpl->appActivityObject) {
+		LOGD("FATAL: Failed to get the current instance of the running activity!");
+		return false;
+	}
+
+	m_pimpl->appActivityDebugMethod = env->GetMethodID(m_pimpl->appActivityClass, "debug", "(Ljava/lang/CharSequence)V");
+	if (!m_pimpl->appActivityDebugMethod) {
+		LOGD("FATAL: Failed to find method `AppActivity.debug()`!");
+		return false;
+	}
+
+	LOGD("INFO: Android interface initialized successfully!");
+
 	return true;
 }
 
 void Android::debug(const std::string &log)
 {
-	if (m_pimpl->appActivityObject)
+	if (!m_pimpl->appActivityObject)
 		return;
 
-	JNIEnv* env;
-
-	if (s_javaVM->AttachCurrentThread(&env, NULL) < 0) {
-		CCLOG("FATAL: AttachCurrentThread failed!");
+	if (!m_pimpl->appActivityDebugMethod)
 		return;
-	}
 
-	jstring str = env->NewString(reinterpret_cast<const jchar*>(log.c_str()), log.length());
+	JNIEnv* env = JniHelper::getEnv();
 
-	env->CallVoidMethod(m_pimpl->appActivityObject, s_appActivityDebugMethodID, str);
-	env->DeleteLocalRef(str);
-	s_javaVM->DetachCurrentThread();
+	jstring logJstr = env->NewString(reinterpret_cast<const jchar*>(log.c_str()), log.length());
+	env->CallVoidMethod(m_pimpl->appActivityObject, m_pimpl->appActivityDebugMethod, logJstr);
+	env->DeleteLocalRef(logJstr);
 }
 
 Android::Impl::Impl(Android *parent)
@@ -183,4 +132,4 @@ Android::Impl::~Impl()
 
 }
 
-#endif // __ANDROID__
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

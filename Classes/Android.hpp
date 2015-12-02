@@ -1,7 +1,8 @@
-#ifdef __ANDROID__
-
 #ifndef  __ANDROID_HPP__
 #define  __ANDROID_HPP__
+
+#include "platform/CCPlatformConfig.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 #include <memory>
 #include <string>
@@ -26,6 +27,6 @@ public:
 	void debug(const std::string &log);
 };
 
-#endif // __ANDROID_HPP__
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#endif // __ANDROID__
+#endif // __ANDROID_HPP__

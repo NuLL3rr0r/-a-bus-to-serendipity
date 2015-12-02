@@ -30,6 +30,9 @@
     <ClCompile Include="..\Classes\VisibleRect.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Android.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -51,6 +54,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\make_unique.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Android.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

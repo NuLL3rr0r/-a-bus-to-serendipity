@@ -1,7 +1,8 @@
 #ifndef  __MAKE_UNIQUE_HPP__
 #define  __MAKE_UNIQUE_HPP__
 
-#ifdef __ANDROID__
+#include "platform/CCPlatformConfig.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 #include <memory>
 #include <utility>
@@ -14,6 +15,6 @@ namespace std {
 	}
 }
 
-#endif // __ANDROID__
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 #endif // __MAKE_UNIQUE_HPP__

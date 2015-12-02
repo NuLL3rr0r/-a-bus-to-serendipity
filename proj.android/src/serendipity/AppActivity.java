@@ -2,37 +2,39 @@ package serendipity;
 
 import android.widget.Toast;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.util.Log;
 import java.lang.Exception;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 public class AppActivity extends Cocos2dxActivity {
-    private static final String TAG = "[serendipity.AppActivity]";
+    private static final String TAG = Cocos2dxActivity.class.getSimpleName();
+    private static Object object;
 
     public static native void screenOrientationChanged(int orientation);
+
+    public static Object getObject()
+    {
+        return object;
+    }
 
     public AppActivity()
     {
         Log.v(TAG, "serendipity.AppActivity instantiated successfully!");
     }
 
-    public boolean release()
+    @Override
+    protected void onCreate(final Bundle savedInstanceState)
     {
-        try {
-            Log.v(TAG, "serendipity.AppActivity released successfully!");
-        }
+        super.onCreate(savedInstanceState);
 
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+        object = this;
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig)
+    {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {

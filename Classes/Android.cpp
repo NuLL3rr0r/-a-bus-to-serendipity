@@ -1,6 +1,7 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+#include <vector>
 #include <android/log.h>
 #include <jni.h>
 #include "platform/android/jni/JniHelper.h"
@@ -13,12 +14,14 @@
 using namespace std;
 using namespace cocos2d;
 
-static Android::ScreenOrientationChangedHandler_t screenOrientationChangedHandler;
+static std::vector<Android::ScreenOrientationChangedHandler_t> screenOrientationChangedHandlers;
 
 static void screenOrientationChanged(JNIEnv*, jobject, int orientation)
 {
-	if (screenOrientationChangedHandler)
-		screenOrientationChangedHandler(orientation);
+	for (const auto& handler : screenOrientationChangedHandlers) {
+		if (handler)
+			handler(orientation);
+	}
 }
 
 struct Android::Impl
@@ -79,7 +82,7 @@ Android::~Android()
 
 void Android::onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler)
 {
-	screenOrientationChangedHandler = handler;
+	screenOrientationChangedHandlers.push_back(handler);
 }
 
 bool Android::init()

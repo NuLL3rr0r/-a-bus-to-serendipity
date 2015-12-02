@@ -115,8 +115,8 @@ void Android::debug(const std::string &log)
 		return;
 
 	JNIEnv* env = JniHelper::getEnv();
-
 	jstring logJstr = env->NewString(reinterpret_cast<const jchar*>(log.c_str()), log.length());
+
 	env->CallVoidMethod(m_pimpl->appActivityObject, m_pimpl->appActivityDebugMethod, logJstr);
 	env->DeleteLocalRef(logJstr);
 }

@@ -15,8 +15,7 @@ static jmethodID s_appActivityDebugMethodID = NULL;
 
 static void screenOrientationChanged(JNIEnv*, jobject, int state)
 {
-	//if (OnHeadSetStateChangedHandler)
-	//	OnHeadSetStateChangedHandler(state);
+
 }
 
 static JNINativeMethod s_jniNativeMethods[] = {

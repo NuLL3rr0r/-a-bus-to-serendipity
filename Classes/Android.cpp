@@ -10,7 +10,7 @@
 #include "make_unique.hpp"
 
 #define  LOG_TAG    "[Android.cpp]"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 using namespace std;
 using namespace cocos2d;
@@ -136,6 +136,8 @@ void Android::debug(const std::string &log)
 
 	env->CallVoidMethod(m_pimpl->appActivityObject, m_pimpl->appActivityDebugMethod, logJstr);
 	env->DeleteLocalRef(logJstr);
+
+	LOGD("%s", log.c_str());
 }
 
 Android::Impl::Impl(Android *parent)

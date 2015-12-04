@@ -45,7 +45,7 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->ScreenOrientationChangedSignal.disconnect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
+	Android::getInstance()->screenOrientationChangedSignal.disconnect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 }
 
@@ -60,7 +60,7 @@ bool GameScene::init()
 	this->addChild(background, - 1);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->ScreenOrientationChangedSignal.connect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
+	Android::getInstance()->screenOrientationChangedSignal.connect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	return true;

@@ -29,7 +29,7 @@ private:
 	std::unique_ptr<Impl> m_pimpl;
 
 public:
-	ScreenOrientationChangedSignal_t ScreenOrientationChangedSignal;
+	ScreenOrientationChangedSignal_t screenOrientationChangedSignal;
 
 public:
 	static Android* getInstance();

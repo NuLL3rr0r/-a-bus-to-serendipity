@@ -14,14 +14,9 @@
 using namespace std;
 using namespace cocos2d;
 
-static std::vector<Android::ScreenOrientationChangedHandler_t> screenOrientationChangedHandlers;
-
 static void screenOrientationChanged(JNIEnv*, jobject, int orientation)
 {
-	for (const auto& handler : screenOrientationChangedHandlers) {
-		if (handler)
-			handler(orientation);
-	}
+	ScreenOrientationChangedSignal.emit(static_cast<Android::ScreenOrientation>(orientation));
 }
 
 struct Android::Impl
@@ -78,11 +73,6 @@ Android::Android()
 Android::~Android()
 {
 	Impl::androidInstance = nullptr;
-}
-
-void Android::onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler)
-{
-	screenOrientationChangedHandlers.push_back(handler);
 }
 
 bool Android::init()

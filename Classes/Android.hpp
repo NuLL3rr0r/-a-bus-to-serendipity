@@ -7,12 +7,21 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include "wink/signal.hpp"
 #include "cocos2d.h"
 
 class Android : public cocos2d::Ref
 {
 public:
-	typedef std::function<void(int)> ScreenOrientationChangedHandler_t;
+	enum class ScreenOrientation : const int {
+		Undefined = 0,
+		Portrait = 1,
+		Landscape = 2,
+		Square = 3	// This constant was deprecated in API level 16. Not currently supported or used.
+	};
+
+	typedef wink::slot<void (ScreenOrientation)> ScreenOrientationChangedSlot;
+	typedef wink::signal<ScreenOrientationChangedSlot> ScreenOrientationChangedSignal;
 
 private:
 	struct Impl;
@@ -24,9 +33,6 @@ public:
 private:
 	Android();
 	virtual ~Android();
-
-public:
-	void onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler);
 
 public:
 	bool init();

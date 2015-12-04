@@ -21,7 +21,7 @@ public:
 		Square = 3	// This constant was deprecated in API level 16. Not currently supported or used.
 	};
 
-	typedef wink::slot<void (ScreenOrientation)> ScreenOrientationChangedSlot_t;
+	typedef wink::slot<void (const ScreenOrientation&)> ScreenOrientationChangedSlot_t;
 	typedef wink::signal<ScreenOrientationChangedSlot_t> ScreenOrientationChangedSignal_t;
 
 private:

@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 static void screenOrientationChanged(JNIEnv*, jobject, int orientation)
 {
-	ScreenOrientationChangedSignal.emit(static_cast<Android::ScreenOrientation>(orientation));
+	//ScreenOrientationChangedSignal.emit(static_cast<Android::ScreenOrientation>(orientation));
 }
 
 struct Android::Impl

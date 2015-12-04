@@ -1,4 +1,7 @@
 #include "make_unique.hpp"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "Android.hpp"
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "GameScene.hpp"
 #include "VisibleRect.hpp"
 
@@ -13,6 +16,11 @@ private:
 public:
 	explicit Impl(GameScene *parent);
 	~Impl();
+
+public:
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	void onScreenOrientationChanged(const Android::ScreenOrientation&);
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 };
 
 GameScene* GameScene::create()
@@ -36,7 +44,9 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->ScreenOrientationChangedSignal.disconnect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 }
 
 bool GameScene::init()
@@ -48,6 +58,10 @@ bool GameScene::init()
 	auto background = Sprite::create("bg_game.png");
 	background->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
 	this->addChild(background, - 1);
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->ScreenOrientationChangedSignal.connect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	return true;
 }
@@ -62,3 +76,11 @@ GameScene::Impl::~Impl()
 {
 
 }
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+void GameScene::Impl::onScreenOrientationChanged(const Android::ScreenOrientation&)
+{
+	Android::getInstance()->debug("Screen rotated!");
+}
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+

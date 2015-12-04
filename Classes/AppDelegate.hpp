@@ -1,5 +1,5 @@
-#ifndef  __APP_DELEGATE_HPP__
-#define  __APP_DELEGATE_HPP__
+#ifndef  APP_DELEGATE_HPP
+#define  APP_DELEGATE_HPP
 
 #include <memory>
 #include "cocos2d.h"
@@ -22,4 +22,4 @@ public:
 	virtual void initGLContextAttrs() override;
 };
 
-#endif // __APP_DELEGATE_HPP__
+#endif // APP_DELEGATE_HPP

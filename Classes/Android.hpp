@@ -1,5 +1,5 @@
-#ifndef  __ANDROID_HPP__
-#define  __ANDROID_HPP__
+#ifndef  ANDROID_HPP
+#define  ANDROID_HPP
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -36,4 +36,4 @@ public:
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#endif // __ANDROID_HPP__
+#endif // ANDROID_HPP

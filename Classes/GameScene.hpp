@@ -1,5 +1,5 @@
-#ifndef __GAME_SCENE_HPP__
-#define __GAME_SCENE_HPP__
+#ifndef GAME_SCENE_HPP
+#define GAME_SCENE_HPP
 
 #include <memory>
 #include "cocos2d.h"
@@ -21,4 +21,4 @@ public:
 	virtual bool init() override;
 };
 
-#endif // __GAME_SCENE_HPP__
+#endif // GAME_SCENE_HPP

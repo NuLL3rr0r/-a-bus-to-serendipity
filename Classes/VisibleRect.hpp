@@ -1,5 +1,5 @@
-#ifndef __VISIBLE_RECT_HPP__
-#define __VISIBLE_RECT_HPP__
+#ifndef VISIBLE_RECT_HPP
+#define VISIBLE_RECT_HPP
 
 #include <memory>
 #include "cocos2d.h"
@@ -31,4 +31,4 @@ private:
 	virtual ~VisibleRect();
 };
 
-#endif // __VISIBLE_RECT_HPP__
+#endif // VISIBLE_RECT_HPP

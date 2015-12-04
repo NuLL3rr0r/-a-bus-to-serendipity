@@ -1,5 +1,5 @@
-#ifndef __MAIN_MENU_SCENE_HPP__
-#define __MAIN_MENU_SCENE_HPP__
+#ifndef MAIN_MENU_SCENE_HPP
+#define MAIN_MENU_SCENE_HPP
 
 #include <memory>
 #include "cocos2d.h"
@@ -21,4 +21,4 @@ public:
 	virtual bool init() override;
 };
 
-#endif // __MAIN_MENU_SCENE_HPP__
+#endif // MAIN_MENU_SCENE_HPP

@@ -1,5 +1,5 @@
-#ifndef __SCENE_MANAGER_HPP__
-#define __SCENE_MANAGER_HPP__
+#ifndef SCENE_MANAGER_HPP
+#define SCENE_MANAGER_HPP
 
 #include <memory>
 #include "cocos2d.h"
@@ -30,4 +30,4 @@ public:
 	void load(const Scene& scene);
 };
 
-#endif // __SCENE_MANAGER_HPP__
+#endif // SCENE_MANAGER_HPP

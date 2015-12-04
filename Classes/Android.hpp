@@ -14,7 +14,7 @@
 class Android : public cocos2d::Ref
 {
 public:
-	enum class ScreenOrientation : const int {
+	enum class ScreenOrientation : const unsigned char {
 		Undefined = 0,
 		Portrait = 1,
 		Landscape = 2,

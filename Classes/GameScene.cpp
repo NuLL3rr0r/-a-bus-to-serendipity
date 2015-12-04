@@ -19,8 +19,11 @@ public:
 
 public:
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	void onScreenOrientationChanged(const Android::ScreenOrientation&);
+	void onScreenOrientationChanged(const Android::ScreenOrientation& orientation);
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+public:
+	void setupEvents();
 };
 
 GameScene* GameScene::create()
@@ -44,9 +47,7 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->screenOrientationChangedSignal.disconnect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 }
 
 bool GameScene::init()
@@ -59,9 +60,7 @@ bool GameScene::init()
 	background->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
 	this->addChild(background, - 1);
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->screenOrientationChangedSignal.connect(m_pimpl.get(), &Impl::onScreenOrientationChanged);
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	m_pimpl->setupEvents();
 
 	return true;
 }
@@ -74,13 +73,21 @@ GameScene::Impl::Impl(GameScene *parent)
 
 GameScene::Impl::~Impl()
 {
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->screenOrientationChangedSignal.disconnect(this, &Impl::onScreenOrientationChanged);
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-void GameScene::Impl::onScreenOrientationChanged(const Android::ScreenOrientation&)
+void GameScene::Impl::onScreenOrientationChanged(const Android::ScreenOrientation& orientation)
 {
 	Android::getInstance()->debug("Screen rotated!");
 }
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+void GameScene::Impl::setupEvents()
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->screenOrientationChangedSignal.connect(this, &Impl::onScreenOrientationChanged);
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+}

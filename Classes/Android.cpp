@@ -1,6 +1,7 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+#include <functional>
 #include <vector>
 #include <android/log.h>
 #include <jni.h>
@@ -14,9 +15,12 @@
 using namespace std;
 using namespace cocos2d;
 
-static void screenOrientationChanged(JNIEnv*, jobject, int orientation)
+static std::function<void(const Android::ScreenOrientation&)> screenOrientationChangedHandler = nullptr;
+
+static void screenOrientationChanged(JNIEnv*, jobject, const int orientation)
 {
-	screenOrientationChangedSignal.emit(static_cast<Android::ScreenOrientation>(orientation));
+	if (screenOrientationChangedHandler)
+		screenOrientationChangedHandler(static_cast<const Android::ScreenOrientation>(orientation));
 }
 
 struct Android::Impl
@@ -109,6 +113,10 @@ bool Android::init()
 		LOGD("FATAL: Failed to register native methods!");
 		return false;
 	}
+
+	screenOrientationChangedHandler = [](const Android::ScreenOrientation& orientation) {
+		Android::getInstance()->screenOrientationChangedSignal.emit(orientation);
+	};
 
 	LOGD("INFO: Android interface initialized successfully!");
 

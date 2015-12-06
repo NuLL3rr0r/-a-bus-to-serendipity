@@ -38,10 +38,10 @@ public:
 	jmethodID appActivityDebugMethod;
 
 private:
-	Android *m_parent;
+	Android* m_parent;
 
 public:
-	explicit Impl(Android *parent);
+	explicit Impl(Android* parent);
 	~Impl();
 };
 

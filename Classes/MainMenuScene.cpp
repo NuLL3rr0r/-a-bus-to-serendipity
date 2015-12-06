@@ -12,10 +12,10 @@ using namespace cocos2d;
 struct MainMenuScene::Impl
 {
 private:
-	MainMenuScene *m_parent;
+	MainMenuScene* m_parent;
 
 public:
-	explicit Impl(MainMenuScene *parent);
+	explicit Impl(MainMenuScene* parent);
 	~Impl();
 
 	void createTitle();

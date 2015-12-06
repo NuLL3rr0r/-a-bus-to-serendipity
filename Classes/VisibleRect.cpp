@@ -12,10 +12,10 @@ public:
 	static void lazyInit();
 
 private:
-	VisibleRect *m_parent;
+	VisibleRect* m_parent;
 
 public:
-	explicit Impl(VisibleRect *parent);
+	explicit Impl(VisibleRect* parent);
 	~Impl();
 };
 

@@ -24,10 +24,10 @@ public:
 	static const cocos2d::Size HdResolutionSize;
 
 private:
-	AppDelegate *m_parent;
+	AppDelegate* m_parent;
 
 public:
-	explicit Impl(AppDelegate *parent);
+	explicit Impl(AppDelegate* parent);
 	~Impl();
 
 	void setupSounds();

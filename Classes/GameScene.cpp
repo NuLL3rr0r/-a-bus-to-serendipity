@@ -11,10 +11,10 @@ using namespace cocos2d;
 struct GameScene::Impl
 {
 private:
-	GameScene *m_parent;
+	GameScene* m_parent;
 
 public:
-	explicit Impl(GameScene *parent);
+	explicit Impl(GameScene* parent);
 	~Impl();
 
 public:

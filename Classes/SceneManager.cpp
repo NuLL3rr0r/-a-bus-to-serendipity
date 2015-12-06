@@ -16,10 +16,10 @@ public:
 	static SceneManager* sceneManagerInstance;
 
 private:
-	SceneManager *m_parent;
+	SceneManager* m_parent;
 
 public:
-	explicit Impl(SceneManager *parent);
+	explicit Impl(SceneManager* parent);
 	~Impl();
 };
 

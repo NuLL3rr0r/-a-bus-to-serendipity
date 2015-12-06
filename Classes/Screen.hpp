@@ -6,10 +6,17 @@
 
 class Screen : public cocos2d::Ref
 {
+public:
+	enum class Orientation : const unsigned char {
+		Undefined = 0,
+		Portrait = 1,
+		Landscape = 2,
+		Square = 3
+	};
+
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
-
 
 public:
 	static Screen* getInstance();
@@ -20,6 +27,8 @@ private:
 
 public:
 	bool init();
+
+	const Orientation getOrientation() const;
 };
 
 #endif // SCREEN_HPP

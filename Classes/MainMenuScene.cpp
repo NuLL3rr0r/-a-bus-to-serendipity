@@ -4,6 +4,7 @@
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "MainMenuScene.hpp"
 #include "SceneManager.hpp"
+#include "Screen.hpp"
 #include "VisibleRect.hpp"
 
 using namespace std;

@@ -45,10 +45,7 @@ GameScene::GameScene()
 
 }
 
-GameScene::~GameScene()
-{
-
-}
+GameScene::~GameScene() = default;
 
 bool GameScene::init()
 {

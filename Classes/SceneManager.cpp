@@ -91,7 +91,4 @@ SceneManager::Impl::Impl(SceneManager *parent)
 
 }
 
-SceneManager::Impl::~Impl()
-{
-
-}
+SceneManager::Impl::~Impl() = default;

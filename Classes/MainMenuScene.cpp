@@ -41,10 +41,7 @@ MainMenuScene::MainMenuScene()
 
 }
 
-MainMenuScene::~MainMenuScene()
-{
-
-}
+MainMenuScene::~MainMenuScene() = default;
 
 bool MainMenuScene::init()
 {
@@ -64,10 +61,7 @@ MainMenuScene::Impl::Impl(MainMenuScene *parent)
 
 }
 
-MainMenuScene::Impl::~Impl()
-{
-
-}
+MainMenuScene::Impl::~Impl() = default;
 
 void MainMenuScene::Impl::createTitle()
 {

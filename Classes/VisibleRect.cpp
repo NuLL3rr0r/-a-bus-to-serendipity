@@ -99,10 +99,7 @@ VisibleRect::VisibleRect()
 
 }
 
-VisibleRect::~VisibleRect()
-{
-
-}
+VisibleRect::~VisibleRect() = default;
 
 void VisibleRect::Impl::lazyInit()
 {
@@ -119,7 +116,4 @@ VisibleRect::Impl::Impl(VisibleRect *parent)
 
 }
 
-VisibleRect::Impl::~Impl()
-{
-
-}
+VisibleRect::Impl::~Impl() = default;

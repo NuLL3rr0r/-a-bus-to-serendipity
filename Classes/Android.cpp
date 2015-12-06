@@ -146,9 +146,6 @@ Android::Impl::Impl(Android *parent)
 	appActivityObject = nullptr;
 }
 
-Android::Impl::~Impl()
-{
-
-}
+Android::Impl::~Impl() = default;
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

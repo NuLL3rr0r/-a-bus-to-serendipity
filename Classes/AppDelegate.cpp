@@ -44,10 +44,7 @@ AppDelegate::AppDelegate()
 
 }
 
-AppDelegate::~AppDelegate()
-{
-
-}
+AppDelegate::~AppDelegate() = default;
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
@@ -133,10 +130,7 @@ AppDelegate::Impl::Impl(AppDelegate *parent)
 
 }
 
-AppDelegate::Impl::~Impl()
-{
-
-}
+AppDelegate::Impl::~Impl() = default;
 
 void AppDelegate::Impl::setupSounds()
 {

@@ -61,6 +61,8 @@ Screen::~Screen()
 
 bool Screen::init()
 {
+	m_pimpl->setupEvents();
+
 	return true;
 }
 
@@ -69,16 +71,21 @@ const Screen::Orientation Screen::getOrientation() const
 	auto orientation = Screen::Orientation::Undefined;
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
-	Size frameSize = glview->getFrameSize();
-	auto ratio = frameSize.width / frameSize.height;
 
-	if (ratio == 1.0f) {
-		orientation = Screen::Orientation::Square;
-	} else {
-		if (ratio < 1.0f) {
-			orientation = Screen::Orientation::Portrait;
-		} else {
-			orientation = Screen::Orientation::Landscape;
+	if (glview) {
+		Size frameSize = glview->getFrameSize();
+		auto ratio = frameSize.width / frameSize.height;
+
+		if (ratio == 1.0f) {
+			orientation = Screen::Orientation::Square;
+		}
+		else {
+			if (ratio < 1.0f) {
+				orientation = Screen::Orientation::Portrait;
+			}
+			else {
+				orientation = Screen::Orientation::Landscape;
+			}
 		}
 	}
 
@@ -88,6 +95,7 @@ const Screen::Orientation Screen::getOrientation() const
 Screen::Impl::Impl(Screen *parent)
 	: m_parent(parent)
 {
+
 }
 
 Screen::Impl::~Impl()

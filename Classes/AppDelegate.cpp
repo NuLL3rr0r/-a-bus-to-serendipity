@@ -44,14 +44,15 @@ AppDelegate::AppDelegate()
 
 }
 
-AppDelegate::~AppDelegate() = default;
+AppDelegate::~AppDelegate()
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->release();
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+}
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	(void*)Android::getInstance();
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	if (!glview) {
@@ -97,6 +98,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	fileUtils->setSearchPaths(searchPaths);
 
 	register_all_packages();
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->retain();
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	auto sceneManager = SceneManager::getInstance();
 	sceneManager->run();

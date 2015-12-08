@@ -100,9 +100,7 @@ Screen::Impl::Impl(Screen *parent)
 
 Screen::Impl::~Impl()
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->screenOrientationChangedSignal.disconnect(this, &Impl::onAndroidScreenOrientationChanged);
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -115,6 +113,6 @@ void Screen::Impl::onAndroidScreenOrientationChanged(const Android::ScreenOrient
 void Screen::Impl::setupEvents()
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->screenOrientationChangedSignal.connect(this, &Impl::onAndroidScreenOrientationChanged);
+	Android::getInstance()->onScreenOrientationChanged(std::bind(&Impl::onAndroidScreenOrientationChanged, this, std::placeholders::_1));
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 }

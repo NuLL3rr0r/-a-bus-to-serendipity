@@ -1,7 +1,6 @@
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include <functional>
 #include <vector>
 #include <android/log.h>
 #include <jni.h>
@@ -15,12 +14,15 @@
 using namespace std;
 using namespace cocos2d;
 
-static std::function<void(const Android::ScreenOrientation&)> screenOrientationChangedHandler = nullptr;
+static std::vector<Android::ScreenOrientationChangedHandler_t> screenOrientationChangedHandlers;
 
 static void screenOrientationChanged(JNIEnv*, jobject, const int orientation)
 {
-	if (screenOrientationChangedHandler)
-		screenOrientationChangedHandler(static_cast<const Android::ScreenOrientation>(orientation));
+	for (const auto& handler : screenOrientationChangedHandlers) {
+		if (handler) {
+			handler(static_cast<const Android::ScreenOrientation>(orientation));
+		}
+	}
 }
 
 struct Android::Impl
@@ -76,19 +78,33 @@ Android::Android()
 
 Android::~Android()
 {
+	// Clear the event vector
+	screenOrientationChangedHandlers.clear();
+
 	Impl::androidInstance = nullptr;
+}
+
+void Android::onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler)
+{
+	screenOrientationChangedHandlers.push_back(handler);
 }
 
 bool Android::init()
 {
 	JavaVM* javaVM = JniHelper::getJavaVM();
 	JNIEnv* env = JniHelper::getEnv();
-
-	m_pimpl->appActivityClass = env->FindClass("serendipity/AppActivity");
-	if (!m_pimpl->appActivityClass) {
+	
+	// Keep a global reference to it, or, you may crash!
+	// Since Android ICS, class references are not global so we need to peg a
+	// global reference to the jclass returned by FindClass(), otherwise we get
+	// following error in the log:
+	// "JNI ERROR (app bug): attempt to use stale local reference 0xHHHHHHHH".
+	jclass clazz = env->FindClass("serendipity/AppActivity");
+	if (!clazz) {
 		LOGD("FATAL: Failed to find class `AppActivity`!");
 		return false;
 	}
+	m_pimpl->appActivityClass = static_cast<jclass>(env->NewGlobalRef(clazz));
 
 	m_pimpl->appActivityGetObjectMethod = env->GetStaticMethodID(m_pimpl->appActivityClass, "getObject", "()Ljava/lang/Object;");
 	if (!m_pimpl->appActivityGetObjectMethod) {
@@ -113,10 +129,6 @@ bool Android::init()
 		LOGD("FATAL: Failed to register native methods!");
 		return false;
 	}
-
-	screenOrientationChangedHandler = [](const Android::ScreenOrientation& orientation) {
-		Android::getInstance()->screenOrientationChangedSignal.emit(orientation);
-	};
 
 	LOGD("INFO: Android interface initialized successfully!");
 

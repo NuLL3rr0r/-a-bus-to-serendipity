@@ -7,8 +7,6 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include "wink/slot.hpp"
-#include "wink/signal.hpp"
 #include "cocos2d.h"
 
 class Android : public cocos2d::Ref
@@ -21,15 +19,11 @@ public:
 		Square = 3	// This constant was deprecated in API level 16. Not currently supported or used.
 	};
 
-	typedef wink::slot<void (const ScreenOrientation&)> ScreenOrientationChangedSlot_t;
-	typedef wink::signal<ScreenOrientationChangedSlot_t> ScreenOrientationChangedSignal_t;
+	typedef std::function<void(const ScreenOrientation&)> ScreenOrientationChangedHandler_t;
 
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
-
-public:
-	ScreenOrientationChangedSignal_t screenOrientationChangedSignal;
 
 public:
 	static Android* getInstance();
@@ -37,6 +31,9 @@ public:
 private:
 	Android();
 	virtual ~Android();
+
+public:
+	void onScreenOrientationChanged(ScreenOrientationChangedHandler_t handler);
 
 public:
 	bool init();

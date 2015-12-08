@@ -5,6 +5,7 @@
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "AppDelegate.hpp"
 #include "SceneManager.hpp"
+#include "Screen.hpp"
 
 using namespace std;
 using namespace cocos2d;
@@ -49,6 +50,8 @@ AppDelegate::~AppDelegate()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	Android::getInstance()->release();
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	SceneManager::getInstance()->release();
+	Screen::getInstance()->release();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
@@ -99,16 +102,18 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	register_all_packages();
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->retain();
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
 	auto sceneManager = SceneManager::getInstance();
 	sceneManager->run();
 
 	auto audioEngine = SimpleAudioEngine::getInstance();
 	audioEngine->setBackgroundMusicVolume(0.5f);
 	audioEngine->setEffectsVolume(0.5f);
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->retain();
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	SceneManager::getInstance()->retain();
+	Screen::getInstance()->retain();
 
 	return true;
 }

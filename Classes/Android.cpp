@@ -19,8 +19,12 @@ static std::function<void(const Android::ScreenOrientation&)> screenOrientationC
 
 static void screenOrientationChanged(JNIEnv*, jobject, const int orientation)
 {
-	if (screenOrientationChangedHandler)
+	if (screenOrientationChangedHandler) {
+		// To avoid evil "JNI ERROR (app bug): attempt to use stale local reference 0xHHHHHHHH".
+		Android::getInstance()->init();
+
 		screenOrientationChangedHandler(static_cast<const Android::ScreenOrientation>(orientation));
+	}
 }
 
 struct Android::Impl

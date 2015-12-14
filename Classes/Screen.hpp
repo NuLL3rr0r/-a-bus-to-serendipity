@@ -2,6 +2,8 @@
 #define SCREEN_HPP
 
 #include <memory>
+#include "wink/slot.hpp"
+#include "wink/signal.hpp"
 #include "cocos2d.h"
 
 class Screen : public cocos2d::Ref
@@ -14,9 +16,15 @@ public:
 		Square = 3
 	};
 
+	typedef wink::slot<void(const Orientation&)> OrientationChangedSlot_t;
+	typedef wink::signal<OrientationChangedSlot_t> OrientationChangedSignal_t;
+
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
+
+public:
+	OrientationChangedSignal_t orientationChangedSignal;
 
 public:
 	static Screen* getInstance();

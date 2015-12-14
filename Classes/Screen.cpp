@@ -108,7 +108,7 @@ Screen::Impl::~Impl()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 void Screen::Impl::onAndroidScreenOrientationChanged(const Android::ScreenOrientation& orientation)
 {
-	Android::getInstance()->debug("Screen rotated!");
+	m_parent->orientationChangedSignal.emit(static_cast<const Screen::Orientation>(static_cast<const unsigned char>(orientation)));
 }
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

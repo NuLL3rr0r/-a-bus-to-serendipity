@@ -21,7 +21,7 @@ public:
 	};
 
 	typedef wink::slot<void (const ScreenOrientation&)> ScreenOrientationChangedSlot;
-	typedef wink::signal<ScreenOrientationChangedSlot_t> ScreenOrientationChangedSignal;
+	typedef wink::signal<ScreenOrientationChangedSlot> ScreenOrientationChangedSignal;
 
 private:
 	struct Impl;

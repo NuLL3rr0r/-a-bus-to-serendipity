@@ -17,7 +17,7 @@
 
         <activity android:name="serendipity.AppActivity"
                   android:label="@string/app_name"
-                  android:screenOrientation="fullSensor"
+                  android:screenOrientation="portrait"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:configChanges="orientation|keyboardHidden|screenSize">
 

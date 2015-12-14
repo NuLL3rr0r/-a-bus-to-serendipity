@@ -19,8 +19,14 @@ public:
 	explicit Impl(MainMenuScene* parent);
 	~Impl();
 
+public:
+	void onScreenOrientationChanged(const Screen::Orientation& orientation);
+
+public:
 	void createTitle();
 	void createMenu();
+
+	void setupEvents();
 };
 
 MainMenuScene* MainMenuScene::create()
@@ -53,6 +59,8 @@ bool MainMenuScene::init()
 	m_pimpl->createTitle();
 	m_pimpl->createMenu();
 
+	m_pimpl->setupEvents();
+
 	return true;
 }
 
@@ -62,7 +70,10 @@ MainMenuScene::Impl::Impl(MainMenuScene *parent)
 
 }
 
-MainMenuScene::Impl::~Impl() = default;
+MainMenuScene::Impl::~Impl()
+{
+	Screen::getInstance()->orientationChangedSignal.disconnect(this, &Impl::onScreenOrientationChanged);
+}
 
 void MainMenuScene::Impl::createTitle()
 {
@@ -119,5 +130,16 @@ void MainMenuScene::Impl::createMenu()
 		i++;
 	}
 
-	m_parent->addChild(menu);
+	m_parent->addChild(menu);	
 }
+
+void MainMenuScene::Impl::onScreenOrientationChanged(const Screen::Orientation& orientation)
+{
+
+}
+
+void MainMenuScene::Impl::setupEvents()
+{
+	Screen::getInstance()->orientationChangedSignal.connect(this, &Impl::onScreenOrientationChanged);
+}
+

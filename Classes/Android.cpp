@@ -30,8 +30,8 @@ static void screenOrientationChanged(JNIEnv*, jobject, const int orientation)
 struct Android::Impl
 {
 public:
-	static mutex androidMutex;
-	static Android* androidInstance;
+	static mutex mutex_;
+	static Android* instance_;
 
 	static JNINativeMethod jniNativeMethods[];
 
@@ -53,23 +53,22 @@ JNINativeMethod Android::Impl::jniNativeMethods[] = {
 	{ "screenOrientationChanged", "(I)V", (void*)screenOrientationChanged }
 };
 
-mutex Android::Impl::androidMutex;
-Android* Android::Impl::androidInstance = nullptr;
+mutex Android::Impl::mutex_;
+Android* Android::Impl::instance_ = nullptr;
 
 Android* Android::getInstance()
 {
-	lock_guard<mutex> lock(Impl::androidMutex);
+	lock_guard<mutex> lock(Impl::mutex_);
 	(void)lock;
 
-	if (!Impl::androidInstance)
-	{
-		Impl::androidInstance = new (std::nothrow) Android();
-		CCASSERT(Impl::androidInstance, "FATAL: Not enough memory!");
-		Impl::androidInstance->init();
-		Impl::androidInstance->autorelease();
+	if (!Impl::instance_) {
+		Impl::instance_ = new (std::nothrow) Android();
+		CCASSERT(Impl::instance_, "FATAL: Not enough memory!");
+		Impl::instance_->init();
+		Impl::instance_->autorelease();
 	}
 
-	return Impl::androidInstance;
+	return Impl::instance_;
 }
 
 Android::Android()
@@ -80,7 +79,7 @@ Android::Android()
 
 Android::~Android()
 {
-	Impl::androidInstance = nullptr;
+	Impl::instance_ = nullptr;
 }
 
 bool Android::init()

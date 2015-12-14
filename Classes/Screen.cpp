@@ -11,8 +11,8 @@ using namespace cocos2d;
 struct Screen::Impl
 {
 public:
-	static mutex screenMutex;
-	static Screen* screenInstance;
+	static mutex mutex_;
+	static Screen* instance_;
 
 private:
 	Screen *m_parent;
@@ -30,23 +30,22 @@ public:
 	void setupEvents();
 };
 
-mutex Screen::Impl::screenMutex;
-Screen* Screen::Impl::screenInstance = nullptr;
+mutex Screen::Impl::mutex_;
+Screen* Screen::Impl::instance_ = nullptr;
 
 Screen* Screen::getInstance()
 {
-	lock_guard<mutex> lock(Impl::screenMutex);
+	lock_guard<mutex> lock(Impl::mutex_);
 	(void)lock;
 
-	if (!Impl::screenInstance)
-	{
-		Impl::screenInstance = new (std::nothrow) Screen();
-		CCASSERT(Impl::screenInstance, "FATAL: Not enough memory!");
-		Impl::screenInstance->init();
-		Impl::screenInstance->autorelease();
+	if (!Impl::instance_) {
+		Impl::instance_ = new (std::nothrow) Screen();
+		CCASSERT(Impl::instance_, "FATAL: Not enough memory!");
+		Impl::instance_->init();
+		Impl::instance_->autorelease();
 	}
 
-	return Impl::screenInstance;
+	return Impl::instance_;
 }
 
 Screen::Screen()
@@ -57,7 +56,7 @@ Screen::Screen()
 
 Screen::~Screen()
 {
-	Impl::screenInstance = nullptr;
+	Impl::instance_ = nullptr;
 }
 
 bool Screen::init()

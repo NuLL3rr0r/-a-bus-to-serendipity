@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/Android.cpp \
                    ../../../Classes/AppDelegate.cpp \
                    ../../../Classes/GameScene.cpp \
+                   ../../../Classes/InputManager.cpp \
                    ../../../Classes/MainMenuScene.cpp \
                    ../../../Classes/SceneManager.cpp \
                    ../../../Classes/Screen.cpp \

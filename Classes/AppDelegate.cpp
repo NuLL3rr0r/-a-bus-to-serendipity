@@ -4,6 +4,7 @@
 #include "Android.hpp"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "AppDelegate.hpp"
+#include "InputManager.hpp"
 #include "SceneManager.hpp"
 #include "Screen.hpp"
 
@@ -52,6 +53,7 @@ AppDelegate::~AppDelegate()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	Android::getInstance()->release();
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	InputManager::getInstance()->release();
 	SceneManager::getInstance()->release();
 	Screen::getInstance()->release();
 }
@@ -119,6 +121,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	Android::getInstance()->retain();
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	InputManager::getInstance()->retain();
 	SceneManager::getInstance()->retain();
 	Screen::getInstance()->retain();
 

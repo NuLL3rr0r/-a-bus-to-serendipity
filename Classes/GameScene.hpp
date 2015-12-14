@@ -18,6 +18,9 @@ public:
 	virtual ~GameScene();
 
 public:
+	void update(float) override;
+
+public:
 	virtual bool init() override;
 };
 

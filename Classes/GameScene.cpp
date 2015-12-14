@@ -1,3 +1,6 @@
+#include <iomanip>
+#include <string>
+#include <sstream>
 #include "make_unique.hpp"
 #include "GameScene.hpp"
 #include "Screen.hpp"
@@ -8,6 +11,9 @@ using namespace cocos2d;
 
 struct GameScene::Impl
 {
+public:
+	static const string ASSET_BACKGROUND;
+
 private:
 	GameScene* m_parent;
 
@@ -18,6 +24,8 @@ public:
 public:
 	void setupEvents();
 };
+
+const string GameScene::Impl::ASSET_BACKGROUND = "bg_land.png";
 
 GameScene* GameScene::create()
 {
@@ -40,15 +48,16 @@ GameScene::GameScene()
 
 GameScene::~GameScene() = default;
 
+void GameScene::update(float delta)
+{
+
+}
+
 bool GameScene::init()
 {
 	if (!Scene::init()) {
 		return false;
 	}
-
-	auto background = Sprite::create("bg_game.png");
-	background->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
-	this->addChild(background, - 1);
 
 	m_pimpl->setupEvents();
 

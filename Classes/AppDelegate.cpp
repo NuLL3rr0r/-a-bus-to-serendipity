@@ -23,6 +23,7 @@ public:
 	static const cocos2d::Size SdResolutionSize;
 	static const cocos2d::Size MdResolutionSize;
 	static const cocos2d::Size HdResolutionSize;
+	static const cocos2d::Size XdResolutionSize;
 
 private:
 	AppDelegate* m_parent;
@@ -34,10 +35,11 @@ public:
 	void setupSounds();
 };
 
-const cocos2d::Size AppDelegate::Impl::DesignResolutionSize = cocos2d::Size(480, 320);
-const cocos2d::Size AppDelegate::Impl::SdResolutionSize = cocos2d::Size(480, 320);
-const cocos2d::Size AppDelegate::Impl::MdResolutionSize = cocos2d::Size(960, 640);
-const cocos2d::Size AppDelegate::Impl::HdResolutionSize = cocos2d::Size(1920, 1280);
+const cocos2d::Size AppDelegate::Impl::DesignResolutionSize = cocos2d::Size(320, 480);
+const cocos2d::Size AppDelegate::Impl::SdResolutionSize = cocos2d::Size(320, 480);
+const cocos2d::Size AppDelegate::Impl::MdResolutionSize = cocos2d::Size(640, 960);
+const cocos2d::Size AppDelegate::Impl::HdResolutionSize = cocos2d::Size(1280, 1920);
+const cocos2d::Size AppDelegate::Impl::XdResolutionSize = cocos2d::Size(2560, 3840);
 
 AppDelegate::AppDelegate()
 	: m_pimpl(make_unique<AppDelegate::Impl>(this))
@@ -82,7 +84,12 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::vector<std::string> searchPaths;
 	auto fileUtils = FileUtils::getInstance();
 
-	if (frameSize.height > m_pimpl->MdResolutionSize.height)
+	if (frameSize.height > m_pimpl->HdResolutionSize.height)
+	{
+		director->setContentScaleFactor(MIN(m_pimpl->XdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->XdResolutionSize.width / m_pimpl->DesignResolutionSize.width));
+		searchPaths.push_back("res/xd");
+	}
+	else if (frameSize.height > m_pimpl->MdResolutionSize.height)
 	{
 		director->setContentScaleFactor(MIN(m_pimpl->HdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->HdResolutionSize.width / m_pimpl->DesignResolutionSize.width));
 		searchPaths.push_back("res/hd");

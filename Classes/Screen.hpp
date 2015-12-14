@@ -16,15 +16,15 @@ public:
 		Square = 3
 	};
 
-	typedef wink::slot<void(const Orientation&)> OrientationChangedSlot_t;
-	typedef wink::signal<OrientationChangedSlot_t> OrientationChangedSignal_t;
+	typedef wink::slot<void(const Orientation&)> OrientationChangedSlot;
+	typedef wink::signal<OrientationChangedSlot> OrientationChangedSignal;
 
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
 
 public:
-	OrientationChangedSignal_t orientationChangedSignal;
+	OrientationChangedSignal orientationChangedSignal;
 
 public:
 	static Screen* getInstance();

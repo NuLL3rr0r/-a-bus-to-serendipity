@@ -20,15 +20,15 @@ public:
 		Square = 3	// This constant was deprecated in API level 16. Not currently supported or used.
 	};
 
-	typedef wink::slot<void (const ScreenOrientation&)> ScreenOrientationChangedSlot_t;
-	typedef wink::signal<ScreenOrientationChangedSlot_t> ScreenOrientationChangedSignal_t;
+	typedef wink::slot<void (const ScreenOrientation&)> ScreenOrientationChangedSlot;
+	typedef wink::signal<ScreenOrientationChangedSlot_t> ScreenOrientationChangedSignal;
 
 private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
 
 public:
-	ScreenOrientationChangedSignal_t screenOrientationChangedSignal;
+	ScreenOrientationChangedSignal screenOrientationChangedSignal;
 
 public:
 	static Android* getInstance();

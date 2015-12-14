@@ -26,6 +26,7 @@ public:
 	void onAndroidScreenOrientationChanged(const Android::ScreenOrientation& orientation);
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+public:
 	void setupEvents();
 };
 

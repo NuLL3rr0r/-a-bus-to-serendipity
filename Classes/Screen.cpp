@@ -61,6 +61,10 @@ Screen::~Screen()
 
 bool Screen::init()
 {
+	if (!Impl::instance_) {
+		return false;
+	}
+
 	m_pimpl->setupEvents();
 
 	return true;

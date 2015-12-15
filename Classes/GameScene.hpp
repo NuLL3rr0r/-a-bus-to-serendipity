@@ -16,12 +16,11 @@ public:
 public:
 	GameScene();
 	virtual ~GameScene();
-
-public:
-	void update(float) override;
-
 public:
 	virtual bool init() override;
+
+public:
+	virtual void update(float delta) override;
 };
 
 #endif // GAME_SCENE_HPP

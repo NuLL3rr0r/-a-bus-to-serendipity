@@ -16,7 +16,6 @@ public:
 public:
 	MainMenuScene();
 	virtual ~MainMenuScene();
-
 public:
 	virtual bool init() override;
 };

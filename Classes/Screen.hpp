@@ -32,10 +32,10 @@ public:
 private:
 	Screen();
 	virtual ~Screen();
+public:
+	virtual bool init();
 
 public:
-	bool init();
-
 	const Orientation getOrientation() const;
 };
 

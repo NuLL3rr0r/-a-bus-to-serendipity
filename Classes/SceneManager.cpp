@@ -56,6 +56,10 @@ SceneManager::~SceneManager()
 
 bool SceneManager::init()
 {
+	if (!Impl::instance_) {
+		return false;
+	}
+
 	return true;
 }
 

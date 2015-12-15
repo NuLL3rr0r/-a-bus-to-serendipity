@@ -84,6 +84,10 @@ Android::~Android()
 
 bool Android::init()
 {
+	if (!Impl::instance_) {
+		return false;
+	}
+
 	JavaVM* javaVM = JniHelper::getJavaVM();
 	JNIEnv* env = JniHelper::getEnv();
 	

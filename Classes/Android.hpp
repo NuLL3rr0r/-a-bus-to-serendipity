@@ -36,10 +36,10 @@ public:
 private:
 	Android();
 	virtual ~Android();
-
 public:
 	bool init();
 
+public:
 	void debug(const std::string &log);
 };
 

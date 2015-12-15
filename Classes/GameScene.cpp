@@ -2,7 +2,11 @@
 #include <string>
 #include <sstream>
 #include "make_unique.hpp"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "Android.hpp"
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "GameScene.hpp"
+#include "InputManager.hpp"
 #include "Screen.hpp"
 #include "VisibleRect.hpp"
 
@@ -20,6 +24,9 @@ private:
 public:
 	explicit Impl(GameScene* parent);
 	~Impl();
+
+public:
+	void onInputKeyPressed(const InputManager::Key& key);
 
 public:
 	void setupEvents();
@@ -46,9 +53,7 @@ GameScene::GameScene()
 
 }
 
-GameScene::~GameScene() = default;
-
-void GameScene::update(float delta)
+GameScene::~GameScene()
 {
 
 }
@@ -59,9 +64,18 @@ bool GameScene::init()
 		return false;
 	}
 
+	this->addChild(InputManager::getInstance());
+
 	m_pimpl->setupEvents();
 
+	this->scheduleUpdate();
+
 	return true;
+}
+
+void GameScene::update(float delta)
+{
+
 }
 
 GameScene::Impl::Impl(GameScene *parent)
@@ -70,9 +84,48 @@ GameScene::Impl::Impl(GameScene *parent)
 
 }
 
-GameScene::Impl::~Impl() = default;
+GameScene::Impl::~Impl()
+{
+	InputManager::getInstance()->keyPressedSignal.disconnect(this, &Impl::onInputKeyPressed);
+}
+
+void GameScene::Impl::onInputKeyPressed(const InputManager::Key& key)
+{
+	switch (key) {
+	case InputManager::Key::ESC:
+		CCLOG("ESC");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		Android::getInstance()->debug("ESC");
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		break;
+	case InputManager::Key::PLAYER_LEFT:
+		CCLOG("LEFT");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		Android::getInstance()->debug("LEFT");
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		break;
+	case InputManager::Key::PLAYER_UP:
+		CCLOG("UP");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		Android::getInstance()->debug("UP");
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		break;
+	case InputManager::Key::PLAYER_RIGHT:
+		CCLOG("RIGHT");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		Android::getInstance()->debug("RIGHT");
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		break;
+	case InputManager::Key::PLAYER_DOWN:
+		CCLOG("DOWN");
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		Android::getInstance()->debug("DOWN");
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		break;
+	}
+}
 
 void GameScene::Impl::setupEvents()
 {
-
+	InputManager::getInstance()->keyPressedSignal.connect(this, &Impl::onInputKeyPressed);
 }

@@ -22,10 +22,10 @@ public:
 private:
 	SceneManager();
 	virtual ~SceneManager();
+public:
+	virtual bool init();
 
 public:
-	bool init();
-
 	void run();
 	void load(const Scene& scene);
 };

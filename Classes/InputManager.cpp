@@ -77,6 +77,8 @@ bool InputManager::init()
 
 	m_pimpl->setupEvents();
 
+	this->scheduleUpdate();
+
 	return true;
 }
 

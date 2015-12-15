@@ -91,6 +91,10 @@ GameScene::Impl::~Impl()
 
 void GameScene::Impl::onInputKeyPressed(const InputManager::Key& key)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	Android::getInstance()->init();
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 	switch (key) {
 	case InputManager::Key::ESC:
 		CCLOG("ESC");

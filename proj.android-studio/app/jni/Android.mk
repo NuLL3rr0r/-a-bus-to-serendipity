@@ -16,6 +16,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/GameScene.cpp \
                    ../../../Classes/InputManager.cpp \
                    ../../../Classes/MainMenuScene.cpp \
+                   ../../../Classes/Puppet.cpp \
+                   ../../../Classes/Puppeteer.cpp \
                    ../../../Classes/SceneManager.cpp \
                    ../../../Classes/Screen.cpp \
                    ../../../Classes/VisibleRect.cpp

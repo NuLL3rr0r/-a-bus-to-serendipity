@@ -84,6 +84,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::vector<std::string> searchPaths;
 	auto fileUtils = FileUtils::getInstance();
 
+	searchPaths.push_back("res/3d");
+
 	if (frameSize.height > m_pimpl->HdResolutionSize.height)
 	{
 		director->setContentScaleFactor(MIN(m_pimpl->XdResolutionSize.height / m_pimpl->DesignResolutionSize.height, m_pimpl->XdResolutionSize.width / m_pimpl->DesignResolutionSize.width));

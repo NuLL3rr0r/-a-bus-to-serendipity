@@ -36,7 +36,7 @@ bool Puppeteer::init()
 	return true;
 }
 
-Puppeteer::Impl::Impl(Puppeteer *parent)
+Puppeteer::Impl::Impl(Puppeteer* parent)
 	: m_parent(parent)
 {
 

@@ -104,7 +104,7 @@ void InputManager::update(float delta)
 	}
 }
 
-InputManager::Impl::Impl(InputManager *parent)
+InputManager::Impl::Impl(InputManager* parent)
 	: m_parent(parent)
 {
 

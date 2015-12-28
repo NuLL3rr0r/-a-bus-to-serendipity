@@ -36,7 +36,7 @@ bool Puppet::init()
 	return true;
 }
 
-Puppet::Impl::Impl(Puppet *parent)
+Puppet::Impl::Impl(Puppet* parent)
 	: m_parent(parent)
 {
 

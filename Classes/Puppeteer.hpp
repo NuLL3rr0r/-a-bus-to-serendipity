@@ -10,6 +10,9 @@ private:
 	struct Impl;
 	std::unique_ptr<Impl> m_pimpl;
 
+public:
+	static Puppeteer* create();
+
 private:
 	Puppeteer();
 	virtual ~Puppeteer();

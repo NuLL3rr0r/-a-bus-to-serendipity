@@ -17,6 +17,19 @@ public:
 	void setupEvents();
 };
 
+Puppeteer* Puppeteer::create()
+{
+	auto p = new (std::nothrow) Puppeteer();
+	if (p && p->init()) {
+		p->autorelease();
+		return p;
+	}
+	else {
+		CC_SAFE_DELETE(p);
+		return nullptr;
+	}
+}
+
 Puppeteer::Puppeteer()
 	: m_pimpl(make_unique<Puppeteer::Impl>(this))
 {

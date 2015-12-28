@@ -17,6 +17,19 @@ public:
 	void setupEvents();
 };
 
+Puppet* Puppet::create()
+{
+	auto p = new (std::nothrow) Puppet();
+	if (p && p->init()) {
+		p->autorelease();
+		return p;
+	}
+	else {
+		CC_SAFE_DELETE(p);
+		return nullptr;
+	}
+}
+
 Puppet::Puppet()
 	: m_pimpl(make_unique<Puppet::Impl>(this))
 {

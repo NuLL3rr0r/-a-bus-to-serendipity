@@ -146,7 +146,7 @@ void InputManager::Impl::createKeyboardListener()
 	eventListener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event) {
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_ESCAPE:
-			InputManager::getInstance()->keyPressedSignal.emit(InputManager::Key::ESC);
+			InputManager::getInstance()->keyPressedSignal.emit(InputManager::Key::START);
 			break;
 		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		case EventKeyboard::KeyCode::KEY_A:

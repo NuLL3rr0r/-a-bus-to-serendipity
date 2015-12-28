@@ -10,7 +10,7 @@ class InputManager : public cocos2d::Node
 {
 public:
 	enum class Key : const unsigned char {
-		ESC,
+		START,
 		PLAYER_LEFT,
 		PLAYER_UP,
 		PLAYER_RIGHT,

@@ -2,9 +2,7 @@
 #include <string>
 #include <sstream>
 #include "make_unique.hpp"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#include "Android.hpp"
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "GameBoard.hpp"
 #include "GameScene.hpp"
 #include "InputManager.hpp"
 #include "Screen.hpp"
@@ -16,7 +14,7 @@ using namespace cocos2d;
 struct GameScene::Impl
 {
 public:
-	static const string ASSET_BACKGROUND;
+	GameBoard* gameBoard;
 
 private:
 	GameScene* m_parent;
@@ -31,8 +29,6 @@ public:
 public:
 	void setupEvents();
 };
-
-const string GameScene::Impl::ASSET_BACKGROUND = "bg_land.png";
 
 GameScene* GameScene::create()
 {
@@ -64,10 +60,13 @@ bool GameScene::init()
 		return false;
 	}
 
+	m_pimpl->gameBoard = GameBoard::create();
+	m_pimpl->gameBoard->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
+	this->addChild(m_pimpl->gameBoard);
+
 	this->addChild(InputManager::getInstance());
 
 	m_pimpl->setupEvents();
-
 	this->scheduleUpdate();
 
 	return true;
@@ -91,40 +90,21 @@ GameScene::Impl::~Impl()
 
 void GameScene::Impl::onInputKeyPressed(const InputManager::Key& key)
 {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	Android::getInstance()->init();
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
 	switch (key) {
-	case InputManager::Key::ESC:
-		CCLOG("ESC");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("ESC");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	case InputManager::Key::START:
+		CCLOG("START");
 		break;
 	case InputManager::Key::PLAYER_LEFT:
 		CCLOG("LEFT");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("LEFT");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 		break;
 	case InputManager::Key::PLAYER_UP:
 		CCLOG("UP");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("UP");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 		break;
 	case InputManager::Key::PLAYER_RIGHT:
 		CCLOG("RIGHT");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("RIGHT");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 		break;
 	case InputManager::Key::PLAYER_DOWN:
 		CCLOG("DOWN");
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("DOWN");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 		break;
 	}
 }

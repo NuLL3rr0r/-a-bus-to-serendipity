@@ -6,6 +6,9 @@ using namespace cocos2d;
 
 struct GameBoard::Impl
 {
+public:
+	static const string ASSET_BOARD;
+
 private:
 	GameBoard* m_parent;
 
@@ -16,6 +19,8 @@ public:
 public:
 	void setupEvents();
 };
+
+const string GameBoard::Impl::ASSET_BOARD = "game_board.png";
 
 GameBoard* GameBoard::create()
 {
@@ -43,6 +48,9 @@ bool GameBoard::init()
 	if (!Node::init()) {
 		return false;
 	}
+
+	auto background = Sprite::create(m_pimpl->ASSET_BOARD);
+	this->addChild(background, -1);
 
 	m_pimpl->setupEvents();
 

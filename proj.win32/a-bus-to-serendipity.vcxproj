@@ -146,6 +146,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\Android.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\GameBoard.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\InputManager.cpp" />
     <ClCompile Include="..\Classes\MainMenuScene.cpp" />
@@ -159,6 +160,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\Android.hpp" />
     <ClInclude Include="..\Classes\AppDelegate.hpp" />
+    <ClInclude Include="..\Classes\GameBoard.hpp" />
     <ClInclude Include="..\Classes\GameScene.hpp" />
     <ClInclude Include="..\Classes\InputManager.hpp" />
     <ClInclude Include="..\Classes\MainMenuScene.hpp" />

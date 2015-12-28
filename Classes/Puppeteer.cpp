@@ -48,4 +48,3 @@ void Puppeteer::Impl::setupEvents()
 {
 
 }
-

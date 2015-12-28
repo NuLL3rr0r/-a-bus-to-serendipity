@@ -195,4 +195,3 @@ void InputManager::Impl::setupEvents()
 	createKeyboardListener();
 	createTouchListener();
 }
-

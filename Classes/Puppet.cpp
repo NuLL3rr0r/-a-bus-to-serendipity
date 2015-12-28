@@ -48,4 +48,3 @@ void Puppet::Impl::setupEvents()
 {
 
 }
-

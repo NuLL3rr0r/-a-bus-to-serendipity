@@ -22,6 +22,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/Puppeteer.cpp \
                    ../../../Classes/SceneManager.cpp \
                    ../../../Classes/Screen.cpp \
+                   ../../../Classes/Utility.cpp \
                    ../../../Classes/VisibleRect.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

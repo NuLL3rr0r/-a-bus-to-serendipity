@@ -1,7 +1,4 @@
 #include "make_unique.hpp"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#include "Android.hpp"
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "MainMenuScene.hpp"
 #include "SceneManager.hpp"
 #include "Screen.hpp"
@@ -97,9 +94,7 @@ void MainMenuScene::Impl::createMenu()
 	});
 
 	auto creditsItem = MenuItemFont::create("Credits", [&](Ref *sender) {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		Android::getInstance()->debug("ToDo...");
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		CCLOG("ToDo...");
 	});
 
 	auto exitItem = MenuItemFont::create("Exit", [&](Ref *sender) {

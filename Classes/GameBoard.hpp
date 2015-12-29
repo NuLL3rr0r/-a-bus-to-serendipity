@@ -18,6 +18,9 @@ private:
 	virtual ~GameBoard();
 public:
 	virtual bool init() override;
+
+public:
+	virtual const cocos2d::Size& getContentSize() const override;
 };
 
 #endif // GAME_BOARD_HPP

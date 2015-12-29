@@ -1,5 +1,7 @@
+#include <vector>
 #include "make_unique.hpp"
 #include "GameBoard.hpp"
+#include "GameBoardSquare.hpp"
 
 using namespace std;
 using namespace cocos2d;
@@ -7,7 +9,20 @@ using namespace cocos2d;
 struct GameBoard::Impl
 {
 public:
-	static const string ASSET_BOARD;
+	static const int BOARD_COLUMNS;
+	static const int BOARD_ROWS;
+	static const int BOARD_TOTAL_SQUARES;
+	static const float BOARD_SQUARE_WIDTH;
+	static const float BOARD_SQUARE_HEIGHT;
+	static const float BOARD_SQUARE_BOARDER_THICKNESS;
+	static const Color4F BOARD_SQUARE_FILL_COLOR_FIRST;
+	static const Color4F BOARD_SQUARE_FILL_COLOR_SECOND;
+	static const Color4F BOARD_SQUARE_BOARDER_COLOR;
+
+public:
+	Size contentSize;
+
+	vector<GameBoardSquare*> squares;
 
 private:
 	GameBoard* m_parent;
@@ -20,7 +35,15 @@ public:
 	void setupEvents();
 };
 
-const string GameBoard::Impl::ASSET_BOARD = "game_board.png";
+const int GameBoard::Impl::BOARD_COLUMNS = 6;
+const int GameBoard::Impl::BOARD_ROWS = 8;
+const int GameBoard::Impl::BOARD_TOTAL_SQUARES = GameBoard::Impl::BOARD_COLUMNS * GameBoard::Impl::BOARD_ROWS;
+const float GameBoard::Impl::BOARD_SQUARE_WIDTH = 50.0f;
+const float GameBoard::Impl::BOARD_SQUARE_HEIGHT = 50.0f;
+const float GameBoard::Impl::BOARD_SQUARE_BOARDER_THICKNESS = 1.0f;
+const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_FIRST = Color4F::GRAY;
+const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_SECOND = Color4F::WHITE;
+const Color4F GameBoard::Impl::BOARD_SQUARE_BOARDER_COLOR = Color4F::BLACK;
 
 GameBoard* GameBoard::create()
 {
@@ -45,16 +68,75 @@ GameBoard::~GameBoard() = default;
 
 bool GameBoard::init()
 {
+	this->removeAllChildrenWithCleanup(true);
+
 	if (!Node::init()) {
 		return false;
 	}
 
-	auto background = Sprite::create(m_pimpl->ASSET_BOARD);
-	this->addChild(background, -1);
+	const float BOARD_WIDTH = m_pimpl->BOARD_SQUARE_WIDTH * m_pimpl->BOARD_COLUMNS;
+	const float BOARD_HEIGHT = m_pimpl->BOARD_SQUARE_HEIGHT * m_pimpl->BOARD_ROWS;
+	const float NX = BOARD_WIDTH / -2.0f;
+	const float NY = BOARD_HEIGHT / -2.0f;
+	const Vec2 SQUARE_ANCHOR_POINT(0.5f, 0.5f);
+
+	int col = 0;
+	int row = 0;
+	Color4F color;
+	Vec2 position;
+	for (int i = 0; i < m_pimpl->BOARD_TOTAL_SQUARES; ++i) {
+		if (col >= m_pimpl->BOARD_COLUMNS) {
+			col = 0;
+			++row;
+		}
+
+		if (row >= m_pimpl->BOARD_ROWS) {
+			break;
+		}
+
+		if (row % 2) {
+			if (col % 2) {
+				color = m_pimpl->BOARD_SQUARE_FILL_COLOR_FIRST;
+			}
+			else {
+				color = m_pimpl->BOARD_SQUARE_FILL_COLOR_SECOND;
+			}
+		}
+		else {
+			if (col % 2) {
+				color = m_pimpl->BOARD_SQUARE_FILL_COLOR_SECOND;
+			}
+			else {
+				color = m_pimpl->BOARD_SQUARE_FILL_COLOR_FIRST;
+			}
+		}
+
+		position.x = (col * m_pimpl->BOARD_SQUARE_WIDTH) + NX;
+		position.y = (row * m_pimpl->BOARD_SQUARE_HEIGHT) + NY;
+
+		auto square = GameBoardSquare::create(m_pimpl->BOARD_SQUARE_WIDTH, m_pimpl->BOARD_SQUARE_HEIGHT,
+			m_pimpl->BOARD_SQUARE_BOARDER_THICKNESS,
+			color, m_pimpl->BOARD_SQUARE_BOARDER_COLOR);
+		square->ignoreAnchorPointForPosition(false);
+		square->setAnchorPoint(SQUARE_ANCHOR_POINT);
+		square->setPosition(position);
+
+		m_pimpl->contentSize.width = (col + 1) * m_pimpl->BOARD_SQUARE_WIDTH;
+		m_pimpl->contentSize.height = (row + 1) * m_pimpl->BOARD_SQUARE_HEIGHT;
+		this->addChild(square);
+		m_pimpl->squares.push_back(square);
+
+		++col;
+	}
 
 	m_pimpl->setupEvents();
 
 	return true;
+}
+
+const cocos2d::Size& GameBoard::getContentSize() const
+{
+	return m_pimpl->contentSize;
 }
 
 GameBoard::Impl::Impl(GameBoard* parent)

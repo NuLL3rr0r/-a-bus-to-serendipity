@@ -61,7 +61,9 @@ bool GameScene::init()
 	}
 
 	m_pimpl->gameBoard = GameBoard::create();
-	m_pimpl->gameBoard->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
+	m_pimpl->gameBoard->ignoreAnchorPointForPosition(false);
+	m_pimpl->gameBoard->setAnchorPoint(Vec2(0.5f, 0.5f));
+	m_pimpl->gameBoard->setPosition(VisibleRect::center().x, VisibleRect::center().y);
 	this->addChild(m_pimpl->gameBoard);
 
 	this->addChild(InputManager::getInstance());

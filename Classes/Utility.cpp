@@ -7,7 +7,7 @@ void Utility::drawAnchorPoint(cocos2d::Node* node, float radius, cocos2d::Color4
 {
 #ifndef NDEBUG
 	auto anchorPoint = DrawNode::create();
-	anchorPoint->drawDot(Point(
+	anchorPoint->drawDot(Vec2(
 		node->getContentSize().width * node->getAnchorPoint().x,
 		node->getContentSize().height * node->getAnchorPoint().y),
 		radius, color);

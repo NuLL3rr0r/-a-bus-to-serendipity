@@ -25,9 +25,6 @@ public:
 	bool init(float width, float height, float borderWidth,
 		const cocos2d::Color4F &fillColor, const cocos2d::Color4F &borderColor);
 	bool init(cocos2d::Sprite* sprite);
-
-public:
-	virtual const cocos2d::Size& getContentSize() const override;
 };
 
 #endif // GAME_BOARD_SQUARE_HPP

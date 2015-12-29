@@ -2,6 +2,7 @@
 #include "make_unique.hpp"
 #include "GameBoard.hpp"
 #include "GameBoardSquare.hpp"
+#include "Utility.hpp"
 
 using namespace std;
 using namespace cocos2d;
@@ -20,8 +21,6 @@ public:
 	static const Color4F BOARD_SQUARE_BOARDER_COLOR;
 
 public:
-	Size contentSize;
-
 	vector<GameBoardSquare*> squares;
 
 private:
@@ -76,8 +75,6 @@ bool GameBoard::init()
 
 	const float BOARD_WIDTH = m_pimpl->BOARD_SQUARE_WIDTH * m_pimpl->BOARD_COLUMNS;
 	const float BOARD_HEIGHT = m_pimpl->BOARD_SQUARE_HEIGHT * m_pimpl->BOARD_ROWS;
-	const float NX = BOARD_WIDTH / -2.0f;
-	const float NY = BOARD_HEIGHT / -2.0f;
 	const Vec2 SQUARE_ANCHOR_POINT(0.5f, 0.5f);
 
 	int col = 0;
@@ -111,18 +108,18 @@ bool GameBoard::init()
 			}
 		}
 
-		position.x = (col * m_pimpl->BOARD_SQUARE_WIDTH) + NX;
-		position.y = (row * m_pimpl->BOARD_SQUARE_HEIGHT) + NY;
+		position.x = col * m_pimpl->BOARD_SQUARE_WIDTH;
+		position.y = row * m_pimpl->BOARD_SQUARE_HEIGHT;
 
 		auto square = GameBoardSquare::create(m_pimpl->BOARD_SQUARE_WIDTH, m_pimpl->BOARD_SQUARE_HEIGHT,
 			m_pimpl->BOARD_SQUARE_BOARDER_THICKNESS,
 			color, m_pimpl->BOARD_SQUARE_BOARDER_COLOR);
-		square->ignoreAnchorPointForPosition(false);
+		square->ignoreAnchorPointForPosition(true);
 		square->setAnchorPoint(SQUARE_ANCHOR_POINT);
 		square->setPosition(position);
 
-		m_pimpl->contentSize.width = (col + 1) * m_pimpl->BOARD_SQUARE_WIDTH;
-		m_pimpl->contentSize.height = (row + 1) * m_pimpl->BOARD_SQUARE_HEIGHT;
+		this->setContentSize(Size((col + 1) * m_pimpl->BOARD_SQUARE_WIDTH,
+			(row + 1) * m_pimpl->BOARD_SQUARE_HEIGHT));
 		this->addChild(square);
 		m_pimpl->squares.push_back(square);
 
@@ -134,9 +131,14 @@ bool GameBoard::init()
 	return true;
 }
 
-const cocos2d::Size& GameBoard::getContentSize() const
+GameBoardSquare* GameBoard::getSquare(const int index) const
 {
-	return m_pimpl->contentSize;
+	if (index < m_pimpl->squares.size()) {
+		return m_pimpl->squares[index];
+	}
+	else {
+		return nullptr;
+	}
 }
 
 GameBoard::Impl::Impl(GameBoard* parent)

@@ -4,6 +4,8 @@
 #include <memory>
 #include "cocos2d.h"
 
+class GameBoardSquare;
+
 class GameBoard : public cocos2d::Node
 {
 private:
@@ -20,7 +22,7 @@ public:
 	virtual bool init() override;
 
 public:
-	virtual const cocos2d::Size& getContentSize() const override;
+	GameBoardSquare* getSquare(const int index) const;
 };
 
 #endif // GAME_BOARD_HPP

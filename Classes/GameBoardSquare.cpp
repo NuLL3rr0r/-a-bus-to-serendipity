@@ -1,14 +1,12 @@
 #include "make_unique.hpp"
 #include "GameBoardSquare.hpp"
+#include "Utility.hpp"
 
 using namespace std;
 using namespace cocos2d;
 
 struct GameBoardSquare::Impl
 {
-public:
-	Size contentSize;
-
 private:
 	GameBoardSquare* m_parent;
 
@@ -77,12 +75,12 @@ bool GameBoardSquare::init(float width, float height, float borderWidth,
 		Vec2(PX, NY)
 	};
 	rect->drawPolygon(vertices, 4, fillColor, borderWidth, borderColor);
-	rect->ignoreAnchorPointForPosition(false);
+	rect->setContentSize(Size(width, height));
+	rect->ignoreAnchorPointForPosition(true);
 	rect->setAnchorPoint(Vec2(0.5f, 0.5f));
 	rect->setPosition(Vec2(0.0f, 0.0f));
 
-	m_pimpl->contentSize.width = width;
-	m_pimpl->contentSize.height = height;
+	this->setContentSize(Size(width, height));
 	this->addChild(rect);
 
 	m_pimpl->setupEvents();
@@ -103,11 +101,6 @@ bool GameBoardSquare::init(cocos2d::Sprite* sprite)
 	m_pimpl->setupEvents();
 
 	return true;
-}
-
-const cocos2d::Size& GameBoardSquare::getContentSize() const
-{
-	return m_pimpl->contentSize;
 }
 
 GameBoardSquare::Impl::Impl(GameBoardSquare* parent)

@@ -3,9 +3,11 @@
 #include <sstream>
 #include "make_unique.hpp"
 #include "GameBoard.hpp"
+#include "GameBoardSquare.hpp"
 #include "GameScene.hpp"
 #include "InputManager.hpp"
 #include "Screen.hpp"
+#include "Utility.hpp"
 #include "VisibleRect.hpp"
 
 using namespace std;

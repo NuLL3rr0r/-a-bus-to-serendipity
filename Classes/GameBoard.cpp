@@ -40,8 +40,8 @@ const int GameBoard::Impl::BOARD_TOTAL_SQUARES = GameBoard::Impl::BOARD_COLUMNS 
 const float GameBoard::Impl::BOARD_SQUARE_WIDTH = 50.0f;
 const float GameBoard::Impl::BOARD_SQUARE_HEIGHT = 50.0f;
 const float GameBoard::Impl::BOARD_SQUARE_BOARDER_THICKNESS = 1.0f;
-const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_FIRST = Color4F::GRAY;
-const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_SECOND = Color4F::WHITE;
+const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_FIRST = Color4F::MAGENTA;
+const Color4F GameBoard::Impl::BOARD_SQUARE_FILL_COLOR_SECOND = Color4F::YELLOW;
 const Color4F GameBoard::Impl::BOARD_SQUARE_BOARDER_COLOR = Color4F::BLACK;
 
 GameBoard* GameBoard::create()

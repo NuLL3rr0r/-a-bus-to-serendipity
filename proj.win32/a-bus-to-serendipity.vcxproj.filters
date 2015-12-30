@@ -57,6 +57,9 @@
     <ClCompile Include="..\Classes\IGamePiece.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PostProcess.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -105,6 +108,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\IGamePiece.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PostProcess.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

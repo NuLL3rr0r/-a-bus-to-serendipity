@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\InputManager.cpp" />
     <ClCompile Include="..\Classes\MainMenuScene.cpp" />
+    <ClCompile Include="..\Classes\PostProcess.cpp" />
     <ClCompile Include="..\Classes\Puppet.cpp" />
     <ClCompile Include="..\Classes\Puppeteer.cpp" />
     <ClCompile Include="..\Classes\SceneManager.cpp" />
@@ -170,6 +171,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\InputManager.hpp" />
     <ClInclude Include="..\Classes\MainMenuScene.hpp" />
     <ClInclude Include="..\Classes\make_unique.hpp" />
+    <ClInclude Include="..\Classes\PostProcess.hpp" />
     <ClInclude Include="..\Classes\Puppet.hpp" />
     <ClInclude Include="..\Classes\Puppeteer.hpp" />
     <ClInclude Include="..\Classes\SceneManager.hpp" />

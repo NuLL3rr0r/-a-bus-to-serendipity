@@ -6,6 +6,7 @@
 #include "GameBoardSquare.hpp"
 #include "GameScene.hpp"
 #include "InputManager.hpp"
+#include "PostProcess.hpp"
 #include "Screen.hpp"
 #include "Utility.hpp"
 #include "VisibleRect.hpp"
@@ -16,6 +17,8 @@ using namespace cocos2d;
 struct GameScene::Impl
 {
 public:
+	Layer* gameLayer;
+	PostProcess* grayPostProcessLayer;
 	GameBoard* gameBoard;
 
 private:
@@ -62,11 +65,30 @@ bool GameScene::init()
 		return false;
 	}
 
+	m_pimpl->gameLayer = Layer::create();
+	m_pimpl->gameLayer->setAnchorPoint(Point::ZERO);
+	m_pimpl->gameLayer->setPosition(Point::ZERO);
+	this->addChild(m_pimpl->gameLayer, 0);
+
+	m_pimpl->grayPostProcessLayer = PostProcess::create("shaders/gray.vert", "shaders/gray.frag");
+	m_pimpl->grayPostProcessLayer->setAnchorPoint(Point::ZERO);
+	m_pimpl->grayPostProcessLayer->setPosition(Point::ZERO);
+	this->addChild(m_pimpl->grayPostProcessLayer, 1);
+
+	auto camera = Camera::createPerspective(60, (GLfloat)VisibleRect::width() / VisibleRect::height(), 1, 1000);
+	camera->setPosition3D(Vec3(0, 100, 100));
+	camera->lookAt(Vec3(0, 0, 0), Vec3(0, 1, 0));
+	this->addChild(camera);
+
+	auto ambientLight = AmbientLight::create(Color3B(200, 200, 200));
+	ambientLight->setEnabled(true);
+	m_pimpl->gameLayer->addChild(ambientLight);
+
 	m_pimpl->gameBoard = GameBoard::create();
 	m_pimpl->gameBoard->ignoreAnchorPointForPosition(false);
 	m_pimpl->gameBoard->setAnchorPoint(Vec2(0.5f, 0.5f));
 	m_pimpl->gameBoard->setPosition(VisibleRect::center().x, VisibleRect::center().y);
-	this->addChild(m_pimpl->gameBoard);
+	m_pimpl->gameLayer->addChild(m_pimpl->gameBoard);
 
 	this->addChild(InputManager::getInstance());
 
@@ -78,7 +100,7 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
-
+	m_pimpl->grayPostProcessLayer->draw(m_pimpl->gameLayer);
 }
 
 GameScene::Impl::Impl(GameScene *parent)

@@ -131,7 +131,7 @@ bool GameBoard::init()
 	return true;
 }
 
-GameBoardSquare* GameBoard::getSquare(const int index) const
+GameBoardSquare* GameBoard::getSquare(const std::size_t index) const
 {
 	if (index < m_pimpl->squares.size()) {
 		return m_pimpl->squares[index];

@@ -1,6 +1,7 @@
 #ifndef GAME_BOARD_HPP
 #define GAME_BOARD_HPP
 
+#include <cstddef>
 #include <memory>
 #include "cocos2d.h"
 
@@ -23,7 +24,7 @@ public:
 	virtual bool init() override;
 
 public:
-	GameBoardSquare* getSquare(const int index) const;
+	GameBoardSquare* getSquare(const std::size_t index) const;
 
 	void addPiece(IGamePiece* piece);
 };

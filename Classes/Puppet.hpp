@@ -3,8 +3,9 @@
 
 #include <memory>
 #include "cocos2d.h"
+#include "IGamePiece.hpp"
 
-class Puppet : public cocos2d::Node
+class Puppet : public cocos2d::Node, public IGamePiece
 {
 private:
 	struct Impl;

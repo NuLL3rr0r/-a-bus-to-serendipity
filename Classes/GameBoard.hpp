@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 
 class GameBoardSquare;
+class IGamePiece;
 
 class GameBoard : public cocos2d::Node
 {
@@ -23,6 +24,8 @@ public:
 
 public:
 	GameBoardSquare* getSquare(const int index) const;
+
+	void addPiece(IGamePiece* piece);
 };
 
 #endif // GAME_BOARD_HPP

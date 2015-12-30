@@ -141,6 +141,11 @@ GameBoardSquare* GameBoard::getSquare(const int index) const
 	}
 }
 
+void GameBoard::addPiece(IGamePiece* piece)
+{
+
+}
+
 GameBoard::Impl::Impl(GameBoard* parent)
 	: m_parent(parent)
 {

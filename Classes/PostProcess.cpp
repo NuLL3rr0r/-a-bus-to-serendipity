@@ -83,7 +83,7 @@ void PostProcess::draw(cocos2d::Layer* layer)
 	m_pimpl->renderTexture->beginWithClear(0.0f, 0.0f, 0.0f, 0.0f);
 
 	layer->visit();
-	// In case you decide to replace Layer* with Node*
+	// In case you've decide to replace Layer* with Node*
 	// (Since some 'Node' derived classes do not have visit()
 	// member function without an argument):
 	//auto renderer = Director::getInstance()->getRenderer();

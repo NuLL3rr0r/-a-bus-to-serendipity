@@ -81,7 +81,15 @@ bool PostProcess::init(const std::string& vertexShaderFile, const std::string& f
 void PostProcess::draw(cocos2d::Layer* layer)
 {
 	m_pimpl->renderTexture->beginWithClear(0.0f, 0.0f, 0.0f, 0.0f);
+
 	layer->visit();
+	// In case you decide to replace Layer* with Node*,
+	// since some 'Node' derived classes do not have visit()
+	// member function without an argument
+	//auto renderer = Director::getInstance()->getRenderer();
+	//auto& parentTransform = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+	//layer->visit(renderer, parentTransform, true);
+
 	m_pimpl->renderTexture->end();
 
 	m_pimpl->sprite->setTexture(m_pimpl->renderTexture->getSprite()->getTexture());

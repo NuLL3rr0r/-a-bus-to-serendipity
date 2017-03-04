@@ -1,0 +1,26 @@
+
+	auto background = Sprite::create(Impl::ASSET_BACKGROUND);
+	background->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
+	this->addChild(background, - 1);
+
+	auto spriteFrameCache = SpriteFrameCache::getInstance();
+	spriteFrameCache->addSpriteFramesWithFile("ss_character_xd.plist");
+
+	auto someSprite = Sprite::createWithSpriteFrameName("CH_LEFT0000.png");
+
+	const int kNumberOfFrames = 12;
+	Vector<SpriteFrame*> frames;
+	for (int i = 0; i < kNumberOfFrames; ++i) {
+		stringstream ss;
+		ss << "CH_LEFT" << setfill('0') << setw(4) << i << ".png";
+		frames.pushBack(spriteFrameCache->getSpriteFrameByName(ss.str()));
+	}
+
+	// play the animation
+	Animation* anim = new Animation;
+	anim->initWithSpriteFrames(frames, 0.05f);
+	this->addChild(someSprite);
+	someSprite->setPosition(Point(VisibleRect::center().x, VisibleRect::center().y));
+	someSprite->runAction(Animate::create(anim));
+
+

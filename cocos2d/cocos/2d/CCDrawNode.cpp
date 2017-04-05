@@ -1,6 +1,6 @@
 /* Copyright (c) 2012 Scott Lembcke and Howling Moon Software
  * Copyright (c) 2012 cocos2d-x.org
- * Copyright (c) 2013-2014 Chukong Technologies Inc.
+ * Copyright (c) 2013-2016 Chukong Technologies Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,11 +76,6 @@ static inline float v2fdot(const Vec2 &p0, const Vec2 &p1)
     return  p0.x * p1.x + p0.y * p1.y;
 }
 
-static inline Vec2 v2fforangle(float _a_)
-{
-    return v2f(cosf(_a_), sinf(_a_));
-}
-
 static inline Vec2 v2fnormalize(const Vec2 &p)
 {
     Vec2 r(p.x, p.y);
@@ -104,9 +99,7 @@ static inline Tex2F __t(const Vec2 &v)
 
 // implementation of DrawNode
 
-static const int DEFAULT_LINE_WIDTH = 2;
-
-DrawNode::DrawNode()
+DrawNode::DrawNode(GLfloat lineWidth)
 : _vao(0)
 , _vbo(0)
 , _vaoGLPoint(0)
@@ -125,7 +118,8 @@ DrawNode::DrawNode()
 , _dirty(false)
 , _dirtyGLPoint(false)
 , _dirtyGLLine(false)
-, _lineWidth(DEFAULT_LINE_WIDTH)
+, _lineWidth(lineWidth)
+, _defaultLineWidth(lineWidth)
 {
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 }
@@ -156,9 +150,9 @@ DrawNode::~DrawNode()
     }
 }
 
-DrawNode* DrawNode::create()
+DrawNode* DrawNode::create(GLfloat defaultLineWidth)
 {
-    DrawNode* ret = new (std::nothrow) DrawNode();
+    DrawNode* ret = new (std::nothrow) DrawNode(defaultLineWidth);
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -325,11 +319,9 @@ void DrawNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     }
 }
 
-void DrawNode::onDraw(const Mat4 &transform, uint32_t flags)
+void DrawNode::onDraw(const Mat4 &transform, uint32_t /*flags*/)
 {
-    auto glProgram = getGLProgram();
-    glProgram->use();
-    glProgram->setUniformsForBuiltins(transform);
+    getGLProgramState()->apply(transform);
     
     GL::blendFunc(_blendFunc.src, _blendFunc.dst);
 
@@ -369,7 +361,7 @@ void DrawNode::onDraw(const Mat4 &transform, uint32_t flags)
     CHECK_GL_ERROR_DEBUG();
 }
 
-void DrawNode::onDrawGLLine(const Mat4 &transform, uint32_t flags)
+void DrawNode::onDrawGLLine(const Mat4 &transform, uint32_t /*flags*/)
 {
     auto glProgram = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR);
     glProgram->use();
@@ -398,6 +390,7 @@ void DrawNode::onDrawGLLine(const Mat4 &transform, uint32_t flags)
         // texcood
         glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
     }
+
     glLineWidth(_lineWidth);
     glDrawArrays(GL_LINES, 0, _bufferCountGLLine);
     
@@ -407,12 +400,12 @@ void DrawNode::onDrawGLLine(const Mat4 &transform, uint32_t flags)
     }
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_bufferCountGLLine);
+
     CHECK_GL_ERROR_DEBUG();
 }
 
-void DrawNode::onDrawGLPoint(const Mat4 &transform, uint32_t flags)
+void DrawNode::onDrawGLPoint(const Mat4 &transform, uint32_t /*flags*/)
 {
     auto glProgram = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_COLOR_TEXASPOINTSIZE);
     glProgram->use();
@@ -773,7 +766,7 @@ void DrawNode::drawPolygon(const Vec2 *verts, int count, const Color4F &fillColo
 {
     CCASSERT(count >= 0, "invalid count value");
     
-    bool outline = (borderColor.a > 0.0 && borderWidth > 0.0);
+    bool outline = (borderColor.a > 0.0f && borderWidth > 0.0f);
     
     auto  triangle_count = outline ? (3*count - 2) : (count - 2);
     auto vertex_count = 3*triangle_count;
@@ -808,7 +801,7 @@ void DrawNode::drawPolygon(const Vec2 *verts, int count, const Color4F &fillColo
             Vec2 n1 = v2fnormalize(v2fperp(v2fsub(v1, v0)));
             Vec2 n2 = v2fnormalize(v2fperp(v2fsub(v2, v1)));
             
-            Vec2 offset = v2fmult(v2fadd(n1, n2), 1.0/(v2fdot(n1, n2) + 1.0));
+            Vec2 offset = v2fmult(v2fadd(n1, n2), 1.0f / (v2fdot(n1, n2) + 1.0f));
             struct ExtrudeVerts tmp = {offset, n2};
             extrude[i] = tmp;
         }
@@ -928,7 +921,7 @@ void DrawNode::clear()
     _dirtyGLLine = true;
     _bufferCountGLPoint = 0;
     _dirtyGLPoint = true;
-    _lineWidth = DEFAULT_LINE_WIDTH;
+    _lineWidth = _defaultLineWidth;
 }
 
 const BlendFunc& DrawNode::getBlendFunc() const
@@ -941,9 +934,14 @@ void DrawNode::setBlendFunc(const BlendFunc &blendFunc)
     _blendFunc = blendFunc;
 }
 
-void DrawNode::setLineWidth(int lineWidth)
+void DrawNode::setLineWidth(GLfloat lineWidth)
 {
     _lineWidth = lineWidth;
+}
+
+GLfloat DrawNode::getLineWidth()
+{
+    return this->_lineWidth;
 }
 
 NS_CC_END

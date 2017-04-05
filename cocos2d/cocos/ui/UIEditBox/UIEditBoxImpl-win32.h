@@ -30,7 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-#include "UIEditBoxImpl.h"
+#include "ui/UIEditBox/UIEditBoxImpl.h"
 
 NS_CC_BEGIN
 
@@ -60,6 +60,7 @@ public:
     virtual void setInputFlag(EditBox::InputFlag inputFlag);
     virtual void setMaxLength(int maxLength);
     virtual int  getMaxLength();
+    virtual void setTextHorizontalAlignment(cocos2d::TextHAlignment alignment) { };
     virtual void setReturnType(EditBox::KeyboardReturnType returnType);
     virtual bool isEditing();
     
@@ -105,8 +106,12 @@ private:
     HWND       _sysEdit;
     int        _maxTextLength;
 	*/
+    std::string _editingText;
+    std::string _originalText;
     bool _isEditing;
-    static void onWin32InputBoxTextChange(const char *pText, EditBoxImplWin *thiz);
+
+    void onWin32InputBoxTextChange(const char *pText);
+    void onWin32InputBoxClose(INT_PTR buttonId);
 };
 
 

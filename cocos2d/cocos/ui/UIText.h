@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 http://www.cocos2d-x.org
 
@@ -293,6 +293,35 @@ public:
      * @see `LabelEffect`
      */
     void disableEffect(LabelEffect effect);
+
+    /**
+    * Return whether the shadow effect is enabled.
+    */
+    bool isShadowEnabled() const;
+    /**
+    * Return shadow effect offset value.
+    */
+    Size getShadowOffset() const;
+    /**
+    * Return the shadow effect blur radius.
+    */
+    float getShadowBlurRadius() const;
+    /**
+    * Return the shadow effect color value.
+    */
+    Color4B getShadowColor() const;
+    /**
+    * Return the outline effect size value.
+    */
+    int getOutlineSize() const;
+    /**
+    * Return current effect type.
+    */
+    LabelEffect getLabelEffectType() const;
+    /**
+    * Return current effect color value.
+    */
+    Color4B getEffectColor() const;
 
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;

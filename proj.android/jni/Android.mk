@@ -5,27 +5,15 @@ include $(CLEAR_VARS)
 $(call import-add-path,$(LOCAL_PATH)/../../cocos2d)
 $(call import-add-path,$(LOCAL_PATH)/../../cocos2d/external)
 $(call import-add-path,$(LOCAL_PATH)/../../cocos2d/cocos)
+$(call import-add-path,$(LOCAL_PATH)/../../cocos2d/cocos/audio/include)
 
-LOCAL_MODULE := cocos2dcpp_shared
+LOCAL_MODULE := MyGame_shared
 
-LOCAL_MODULE_FILENAME := libcocos2dcpp
+LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/Android.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/GameBoard.cpp \
-                   ../../Classes/GameBoardSquare.cpp \
-                   ../../Classes/GameScene.cpp \
-                   ../../Classes/IGamePiece.cpp \
-                   ../../Classes/InputManager.cpp \
-                   ../../Classes/MainMenuScene.cpp \
-                   ../../Classes/PostProcess.cpp \
-                   ../../Classes/Puppet.cpp \
-                   ../../Classes/Puppeteer.cpp \
-                   ../../Classes/SceneManager.cpp \
-                   ../../Classes/Screen.cpp \
-                   ../../Classes/Utility.cpp \
-                   ../../Classes/VisibleRect.cpp
+                   ../../Classes/HelloWorldScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
